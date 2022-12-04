@@ -43,7 +43,7 @@ class data_base_conection():
 
             print(data)
 
-            #connection.commit()
+            connection.commit()
 
         except (Exception, psycopg2.Error) as error :
 
