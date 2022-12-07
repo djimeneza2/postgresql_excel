@@ -1,7 +1,4 @@
-import pandas as pd
-import numpy as np
-import psycopg2
-from sqlalchemy import create_engine
+from Z_data_base_query import *
 
 class data_base_conection():
 
