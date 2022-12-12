@@ -166,4 +166,3 @@ class create_timestamp_for_dataframe():
         self.array_ones_df = np.ones( [self.days*24*4, 1] )
 
         return self.array_ones_df
-

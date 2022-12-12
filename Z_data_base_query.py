@@ -47,10 +47,6 @@ class data_base_conection():
 
             cursor.execute(query_f) 
 
-            data = cursor.fetchall()
-
-            print(data)
-
             connection.commit()
 
         except (Exception, psycopg2.Error) as error :
@@ -59,11 +55,11 @@ class data_base_conection():
 
         finally:
 
-                if(self.connection):
+                if(connection):
 
-                    self.cursor.close()
+                    cursor.close()
 
-                    self.connection.close()
+                    connection.close()
 
                     print("PostgreSQL connection is closed")
 
@@ -91,7 +87,12 @@ class data_base_conection():
 
             cursor = connection.cursor()
             
-            sql_insert_query = """ INSERT INTO public.{table} (kwh, kvar_i, kvar_c, kw, kwh_i, id_facturacion, periodo) VALUES (%s,%s,%s,%s,%s,%s,%s) """
+            sql_insert_query =  """ INSERT INTO public.{table} (kwh, kvar_i, kvar_c, kw, kwh_i, id_facturacion, periodo) 
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s) 
+                                    ON CONFLICT (periodo) 
+                                    DO NOTHING
+                                    ;            
+                                """
 
             result = cursor.executemany(sql_insert_query.format(table=table_name), records)
 
@@ -156,5 +157,46 @@ class delete_all_data_in_table(data_base_conection):
         
         return 0
 
+class show_all_tables_in_db(data_base_conection):
 
 
+    def __init__(self,user,password,host,port,database):
+
+        super().__init__(user,password,host,port,database)
+
+
+    def tables_in_db(self):
+
+        try:
+
+            connection = self.activate_connection()
+
+            cursor = connection.cursor()
+
+            query_f=''' SELECT table_name 
+                        FROM information_schema.tables 
+                        WHERE table_schema='public' '''
+
+            cursor.execute(query_f) 
+
+            self.table_name = []
+            for row in cursor:
+                self.table_name.append(row)
+
+            connection.commit()
+
+        except (Exception, psycopg2.Error) as error :
+
+            print ("Error while connecting to PostgreSQL", error)
+
+        finally:
+
+                if(connection):
+
+                    cursor.close()
+
+                    connection.close()
+
+                    print("PostgreSQL connection is closed")
+        
+        return self.table_name
