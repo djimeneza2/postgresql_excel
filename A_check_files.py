@@ -5,13 +5,16 @@ from Z_search_for_excelfiles import *
 
 inicio_ejecucion=datetime.datetime.now()
 
+mes = '06'
+anho='2022'
+
 search_path_root='/config/workspace/root_inicio'
 search_path_client='/'+'ENOSA'
-search_path_year='/'+'2022'
-search_path_month= '/'+'05_2022'
+search_path_year='/'+anho
+search_path_month= '/'+mes+'_'+anho
 search_final_path=search_path_root+search_path_client+search_path_year+search_path_month
 search_final_path_data=search_final_path+'/'+'intefase_postgresql.xlsx'
-all_client_mesures=check_archives_in_path(search_final_path+'/'+'052022_ENG_DC').read_archives_in_path()
+all_client_mesures=check_archives_in_path(search_final_path+'/'+mes+anho+'_ENG_DC').read_archives_in_path()
 print(f'se encontraron {len(all_client_mesures)} archivos')
 
 list_of_files=[]
@@ -40,7 +43,7 @@ for files in list_of_files:
     if files not in list_of_tables_in_db:
         if files not in list_exclude_files:
             list_of_files_not_in_tables.append(files)
-print(list_of_files_not_in_tables)
+print(f'el archivo nuevo que no esta en base de datos es: {list_of_files_not_in_tables}')
 
 list_exclude_tables=[   'nombre_clientes',
                         'nombre_contratos',
@@ -74,4 +77,4 @@ for files in list_of_tables_in_db:
     if files not in list_of_files:
         if files not in list_exclude_tables:
             list_of_table_not_in_files.append(files)
-print(list_of_table_not_in_files)
+print(f'el archivo que no se ha enviado este mes es: {list_of_table_not_in_files}')
