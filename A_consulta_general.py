@@ -28,14 +28,16 @@ query_extract ='''
     SELECT id, kwh, kvar_i, kvar_c, kw, kwh_i, id_facturacion, periodo
 	FROM public.medicion_eng_dc_eps_grau_sum10491118_pt
     WHERE periodo >= '2022-07-01 00:15'
-    AND periodo < '2022-08-01 00:15;' 
+    AND periodo <= '2022-07-01 00:15';' 
 '''
 
-m=postgresql_to_dataframe("admin",
+m=postgresql_to_array("admin",
                     "secret",
                     "172.25.0.1",
                     "5432",
                     "mediciones_cliente"
-                    ).postgresql_to_df()
+                    ).postgresql_to_df_final('medicion_eng_dc_eps_grau_sum10491118_pt','2022-07-01 00:15','2022-07-01 00:45')
 
-print(m)
+columns = ['id', 'kwh', 'kvar_i',' kvar_c', 'kw', 'kwh_i', 'id_facturacion', 'periodo']
+dataframe=pd.DataFrame(m,columns=columns)
+print(dataframe)

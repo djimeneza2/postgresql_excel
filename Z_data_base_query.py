@@ -95,7 +95,7 @@ class data_base_conection():
                                 """
 
             result = cursor.executemany(sql_insert_query.format(table=table_name), records)
-
+             
             connection.commit()
 
             print(cursor.rowcount, "Record inserted successfully")
@@ -209,7 +209,7 @@ class postgresql_to_dataframe(data_base_conection):
         super().__init__(user,password,host,port,database)
 
 
-    def postgresql_to_df(self):
+    def postgresql_to_array(self,tabla,inicio,final):
 
         try:
 
@@ -217,11 +217,11 @@ class postgresql_to_dataframe(data_base_conection):
 
             cursor = connection.cursor()
 
-            query_f='''
+            query_f=f'''
                         SELECT id, kwh, kvar_i, kvar_c, kw, kwh_i, id_facturacion, periodo
-                        FROM public.medicion_eng_dc_eps_grau_sum10491118_pt
-                        WHERE periodo >= '2022-07-01 00:15'
-                        AND periodo < '2022-08-01 00:15;' 
+                        FROM public.{tabla}
+                        WHERE periodo >= '{inicio}'
+                        AND periodo <= '{final}';
                     '''
 
             cursor.execute(query_f) 
@@ -247,5 +247,6 @@ class postgresql_to_dataframe(data_base_conection):
                     print("PostgreSQL connection is closed")
         
         return self.table_name
+
 
 
