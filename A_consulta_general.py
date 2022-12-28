@@ -1,7 +1,7 @@
 from Z_data_base_query import *
 from Z_search_for_excelfiles import *
 
-
+import matplotlib.pyplot as plt
 
 query = ''' INSERT INTO public.nombre_barra_facturacion(id,nombre, codigo_int, codigo_string, id_tipo_cliente, id_cliente, id_contrato, id_licitacion, id_oferta, id_mercado, id_barra_referencia, id_barra_suministro) 
 VALUES (60,'Unimar_Sum12317105_Sum12317105',159,'ENG_DC_Unimar_Sum12317105_Sum12317105',1,1,1,15,8,3,1,1); '''
@@ -31,13 +31,19 @@ query_extract ='''
     AND periodo <= '2022-07-01 00:15';' 
 '''
 
-m=postgresql_to_array("admin",
+m=postgresql_to_dataframe("admin",
                     "secret",
                     "172.25.0.1",
                     "5432",
                     "mediciones_cliente"
-                    ).postgresql_to_df_final('medicion_eng_dc_eps_grau_sum10491118_pt','2022-07-01 00:15','2022-07-01 00:45')
+                    ).postgresql_to_array('medicion_eng_dc_eps_grau_sum10491118_pt','2022-08-01 00:15','2022-09-01 00:00')
 
 columns = ['id', 'kwh', 'kvar_i',' kvar_c', 'kw', 'kwh_i', 'id_facturacion', 'periodo']
 dataframe=pd.DataFrame(m,columns=columns)
 print(dataframe)
+
+x=np.array(dataframe['periodo'])
+y=np.array(dataframe['kw'])
+
+plt.plot(x,y)
+plt.savefig("medicion_eng_dc_eps_grau_sum10491118_pt.png")
