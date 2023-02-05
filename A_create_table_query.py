@@ -1,3 +1,5 @@
+from Z_data_base_query import *
+
 tabla_2 = [
 'medicion_ENG_DC_American_Quality_Sum10910500',
 'medicion_ENG_DC_CbC_Peruana1_Sum10491010',
@@ -85,3 +87,38 @@ for i in tabla_2:
 
     TABLESPACE pg_default;
     ''')
+
+
+
+'''
+CREATE TABLE IF NOT EXISTS public.medicion_eng_dc_altamar_sum12597027
+(
+    id integer NOT NULL DEFAULT nextval('medicion_eng_dc_altamar_sum12597027_id_seq'::regclass),
+    kwh numeric,
+    kvar_i numeric,
+    kvar_c numeric,
+    kw numeric,
+    kwh_i numeric,
+    id_facturacion integer,
+    periodo timestamp without time zone,
+    CONSTRAINT medicion_eng_dc_altamar_sum12597027_pkey PRIMARY KEY (id),
+    CONSTRAINT medicion_eng_dc_altamar_sum12597027_uq_per UNIQUE (periodo),
+    CONSTRAINT facturacion_medicion_fkey FOREIGN KEY (id_facturacion)
+        REFERENCES public.nombre_barra_facturacion (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.medicion_eng_dc_altamar_sum12597027
+    OWNER to admin;
+
+'''
+
+data_base_conection("admin",
+                    "secret",
+                    "172.25.0.1",
+                    "5432",
+                    "mediciones_cliente"
+                    ).tables_in_db()

@@ -5,7 +5,7 @@ from Z_search_for_excelfiles import *
 
 inicio_ejecucion=datetime.datetime.now()
 
-mes = '10'
+mes = '12'
 anho='2022'
 
 search_path_root='/config/workspace/root_inicio'
@@ -82,14 +82,23 @@ for client,numero,tabla in par_postgresql:
 
             tuple_prueba+=(dataframe_prueba.loc[ro,col],)
 
+            print(type(dataframe_prueba.loc[ro,col]))
+
         records_to_insert.append(tuple_prueba)
+
 
     data_base_conection("admin",
                     "secret",
                     "172.25.0.1",
                     "5432",
                     "mediciones_cliente"
-                    ).execute_query_insert_many(tabla,records_to_insert)
+                    ).execute_query_insert_many(tabla,'periodo',records_to_insert,'kwh',
+                                                                                    'kvar_i',
+                                                                                    'kvar_c',
+                                                                                    'kw',
+                                                                                    'kwh_i',
+                                                                                    'id_facturacion',
+                                                                                    'periodo')
 
     dataframe_prueba.to_csv(copy_path_root+
                         copy_path_client+ 

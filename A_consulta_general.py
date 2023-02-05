@@ -36,7 +36,7 @@ m=postgresql_to_dataframe("admin",
                     "172.25.0.1",
                     "5432",
                     "mediciones_cliente"
-                    ).postgresql_to_array('medicion_eng_dc_eps_grau_sum10491118_pt','2022-08-01 00:15','2022-09-01 00:00')
+                    ).postgresql_to_array('medicion_eng_dc_eps_grau_sum10491118_pt','2022-08-01 00:16','2022-08-01 05:43')
 
 columns = ['id', 'kwh', 'kvar_i',' kvar_c', 'kw', 'kwh_i', 'id_facturacion', 'periodo']
 dataframe=pd.DataFrame(m,columns=columns)

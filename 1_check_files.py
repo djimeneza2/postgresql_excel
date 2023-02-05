@@ -5,7 +5,7 @@ from Z_search_for_excelfiles import *
 
 inicio_ejecucion=datetime.datetime.now()
 
-mes = '06'
+mes = '12'
 anho='2022'
 
 search_path_root='/config/workspace/root_inicio'
@@ -16,6 +16,8 @@ search_final_path=search_path_root+search_path_client+search_path_year+search_pa
 search_final_path_data=search_final_path+'/'+'intefase_postgresql.xlsx'
 all_client_mesures=check_archives_in_path(search_final_path+'/'+mes+anho+'_ENG_DC').read_archives_in_path()
 print(f'se encontraron {len(all_client_mesures)} archivos')
+for i in all_client_mesures:
+    print(i)
 
 list_of_files=[]
 for i in all_client_mesures:
@@ -36,7 +38,8 @@ for i in range(len(tables_in_db)):
 list_exclude_files=['medicion_eng_dc_agroindustrias_del_chira_s.r.l._sum10878332_cl',
                     'medicion_eng_dc_agropesca_del_perú_sum17815058-cl',
                     'medicion_eng_dc_negocios _del_sur_del_peru_cl',
-                    'medicion_eng_dc_promotora_inmobiliaria_industrial_de_piura_s.a.c_sum16464548_cl']
+                    'medicion_eng_dc_promotora_inmobiliaria_industrial_de_piura_s.a.c_sum16464548_cl',
+                    'medicion_eng_dc_fabrica_de_hielo_hielofish s.a.c_sum15289354_tumbes_cl']
 
 list_of_files_not_in_tables=[]
 for files in list_of_files:
