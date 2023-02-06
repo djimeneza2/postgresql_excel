@@ -208,3 +208,14 @@ for i in tabla_2:
 
     TABLESPACE pg_default;
     ''')
+
+
+for i in tabla_2:
+    print(f'''
+    ALTER TABLE IF EXISTS public.{i}
+    ADD CONSTRAINT {i}_uq_per
+    UNIQUE (periodo);
+    ''')
+
+# medicion_eng_dc_agroindustrias_del_chira_srl_sum10878332_cl_uq_
+# medicion_promotora_inmobiliaria_industrial_de_piura_sac_cl_uq_p

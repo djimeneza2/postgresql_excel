@@ -52,5 +52,3 @@ data_base_conection("admin",
                                                 'id_mercado', 
                                                 'id_barra_referencia', 
                                                 'id_barra_suministro')
-
-

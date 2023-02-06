@@ -4,7 +4,7 @@ from Z_data_base_query import *
 
 inicio_ejecucion=datetime.datetime.now()
 
-mes = '06'
+mes = '12'
 anho='2022'
 
 search_path_root='/config/workspace/root_inicio'

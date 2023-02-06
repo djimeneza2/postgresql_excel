@@ -17,10 +17,6 @@ search_final_path=search_path_root+search_path_client+search_path_year+search_pa
 search_final_path_data=search_final_path+'/'+'intefase_postgresql.xlsx'
 all_client_mesures=check_archives_in_path(search_final_path+'/'+mes+anho+'_ENG_DC').read_archives_in_path()
 
-print(f'se encontraron {len(all_client_mesures)} archivos')
-for i in all_client_mesures:
-    print(i)
-
 data_postgresql=pd.read_excel(search_final_path_data,sheet_name="nombre_data")
 tabla_postgresql=pd.read_excel(search_final_path_data,sheet_name="tablas_postgres")
 search_excel_name = data_postgresql['nombre_medicion_enviada'].isin(all_client_mesures)
@@ -88,8 +84,6 @@ for client,numero,tabla in par_postgresql:
         for col in dataframe_prueba.columns: 
 
             tuple_prueba+=(dataframe_prueba.loc[ro,col],)
-
-            print(type(dataframe_prueba.loc[ro,col]))
 
         records_to_insert.append(tuple_prueba)
 

@@ -1,5 +1,7 @@
 from Z_data_base_query import *
 
+#######################################################
+
 tabla=[
 
 'medicion_eng_dc_american_quality_sum10910500',
@@ -79,7 +81,7 @@ for i in tabla:
     query=f'''
     CREATE TABLE IF NOT EXISTS public.{i}
     (
-        id integer NOT NULL,
+        id SERIAL NOT NULL,
         kwh numeric,
         kvar_i numeric,
         kvar_c numeric,
