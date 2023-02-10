@@ -62,7 +62,13 @@ class copy_excel_data():
 
             for j in range( self.startCol, self.endCol+1, 1):
 
-                rowSelected.append( wb_sheet_copy.cell(row = i, column = j).value)
+                if wb_sheet_copy.cell(row = i, column = j).value != None:
+
+                    rowSelected.append( wb_sheet_copy.cell(row = i, column = j).value)
+
+                else:
+
+                    rowSelected.append( 0 )
 
             self.rangeSelected.append(rowSelected)
 

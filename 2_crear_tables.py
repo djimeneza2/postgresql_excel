@@ -91,7 +91,11 @@ for i in tabla:
         periodo timestamp without time zone,
         CONSTRAINT {i}_pkey PRIMARY KEY (id),
         CONSTRAINT {i}_uq_per UNIQUE (periodo),
-        CONSTRAINT facturacion_medicion_fkey FOREIGN KEY (id_facturacion)
+        CONSTRAINT facturacion_medicion_fkey FOREIGç
+        çççççççççççççççççç411
+        
+        
+        +çyhggggiiiiiioilkklk,N KEY (id_facturacion)
             REFERENCES public.nombre_barra_facturacion (id) MATCH SIMPLE
             ON UPDATE CASCADE
             ON DELETE CASCADE
@@ -106,4 +110,4 @@ for i in tabla:
                     "172.25.0.1",
                     "5432",
                     "mediciones_cliente"
-                    ).execute_query(query)
+                    ).execute_query(query,0)

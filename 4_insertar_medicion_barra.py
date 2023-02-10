@@ -57,21 +57,20 @@ for client,numero,tabla in par_postgresql:
     array_id_facturacion = np.dot(timestamps.create_ones_arrays(),numero)
 
     data_dataframe = np.concatenate((kwh_copied,
-                                                array_kvar_i,
-                                                array_kvar_c,
-                                                kw_copied,
-                                                kwh_copied,
-                                                array_id_facturacion,
-                                                array_timestamp),axis=1)
+                                    array_kvar_i,
+                                    array_kvar_c,
+                                    kw_copied,
+                                    kwh_copied,
+                                    array_id_facturacion,
+                                    array_timestamp),axis=1)
 
-    dataframe_prueba=pd.DataFrame(data_dataframe ,
-                                                columns=['kwh',
-                                                        'kvar_i',
-                                                        'kvar_c',
-                                                        'kw',
-                                                        'kwh_i',
-                                                        'id_facturacion',
-                                                        'periodo'])
+    dataframe_prueba=pd.DataFrame(data_dataframe ,columns=['kwh',
+                                                            'kvar_i',
+                                                            'kvar_c',
+                                                            'kw',
+                                                            'kwh_i',
+                                                            'id_facturacion',
+                                                            'periodo'])
     
 
     

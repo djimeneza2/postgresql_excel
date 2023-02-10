@@ -37,7 +37,7 @@ class data_base_conection():
         return self.connection
         
 
-    def execute_query(self,query):
+    def execute_query(self,query,informe):
 
         try:
 
@@ -48,6 +48,16 @@ class data_base_conection():
             query_f = query
 
             cursor.execute(query_f) 
+
+            if informe==1:
+
+                self.table_query = []
+                for row in cursor:
+                    self.table_query.append(row)
+            
+            else:
+
+                self.table_query=0
 
             connection.commit()
 
@@ -65,7 +75,7 @@ class data_base_conection():
 
                     print("PostgreSQL connection is closed")
 
-        return 0
+        return self.table_query
 
 
     def dataframe_to_postgresql(self,dataframe_df,table_df):
@@ -263,3 +273,11 @@ class postgresql_to_dataframe(data_base_conection):
                     print("PostgreSQL connection is closed")
         
         return self.table_name
+
+    
+
+
+
+
+
+
