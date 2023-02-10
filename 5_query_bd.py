@@ -17,7 +17,7 @@ search_final_path_data=search_final_path+'/'
 query_extract ='''
     SELECT codigo_string
 	FROM public.nombre_barra_facturacion
-    WHERE id_licitacion=15 AND id_barra_suministro=4 AND id_oferta=41;
+    WHERE id_licitacion=15 AND id_barra_suministro=1 AND id_oferta=41;
 '''
 
 '''
@@ -43,16 +43,23 @@ mediciones=data_base_conection("admin",
 timestamps=create_timestamp_for_dataframe(int(anho),int(mes))
 
 array_timestamp=timestamps.create_timestamp_array()
+array_id=timestamps.create_range_arrays()
+array_kwh=timestamps.create_zero_arrays()
 array_kvar_i=timestamps.create_zero_arrays()
+array_kvar_c=timestamps.create_zero_arrays()
+array_kw=timestamps.create_zero_arrays()
+array_kwh_i=timestamps.create_zero_arrays()
+array_id_facturacion=timestamps.create_ones_arrays()
 
-data_dataframe_f = np.concatenate((array_kvar_i,
+
+data_dataframe_f = np.concatenate((array_id,
+                                    array_kwh,
                                     array_kvar_i,
-                                    array_kvar_i,
-                                    array_kvar_i,
-                                    array_kvar_i,
-                                    array_kvar_i,
-                                    array_kvar_i,
-                                    array_kvar_i),axis=1)
+                                    array_kvar_c,
+                                    array_kw,
+                                    array_kwh_i,
+                                    array_id_facturacion,
+                                    array_timestamp),axis=1)
 
 df_final_med=pd.DataFrame(data_dataframe_f,columns=['id',
                                                     'kwh',
@@ -70,7 +77,9 @@ for i in range(np.shape(mediciones)[0]):
                                             "secret",
                                             "172.25.0.1",
                                             "5432",
-                                            "mediciones_cliente").postgresql_to_array(mediciones[i][0],'2022-12-01 00:15','2023-01-01 00:00')
+                                            "mediciones_cliente").postgresql_to_array(mediciones[i][0],
+                                                                                    '2022-12-01 00:15',
+                                                                                    '2023-01-01 00:00')
     
     dict_medicion[mediciones[i][0]]=pd.DataFrame(data_dataframe , columns=['id',
                                                                             'kwh',
@@ -90,4 +99,4 @@ for i in range(np.shape(mediciones)[0]):
         df_final_med['kw']+=dict_medicion[mediciones[i][0]]['kw'].astype('float')
         df_final_med['kwh_i']+=dict_medicion[mediciones[i][0]]['kwh_i'].astype('float')
             
-df_final_med.to_csv(search_final_path+'/revision_libres/'+'Energia_Libres_1_NZorritos60kv'+'.csv')                                                                      
+df_final_med.to_csv(search_final_path+'/revision_libres/'+'Energia_Libres_1_piura60kv'+'.csv')                                                                      

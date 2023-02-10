@@ -174,3 +174,11 @@ class create_timestamp_for_dataframe():
         self.array_ones_df = np.ones( [self.days*24*4, 1] )
 
         return self.array_ones_df
+
+    def create_range_arrays(self):
+
+        self.array_range_df = []
+        for i in range(1,self.days*24*4+1):
+            self.array_range_df.append([i])
+
+        return self.array_range_df

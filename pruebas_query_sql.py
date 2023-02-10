@@ -1,4 +1,5 @@
 # direccion window para volumes docker \\wsl$\docker-desktop-data\data\docker\volumes
+import numpy as np
 from datetime import datetime
 
 date_time_str = '18/09/19 01:55:19'
@@ -22,3 +23,14 @@ query_f=f'''
         '''
 
 print(query_f)
+
+days=31
+array_zeros_df = np.zeros( [days*24*4, 1] )
+array_ones_df = np.ones( [days*24*4, 1] )
+array_range_df = []
+for i in range(1,days*24*4+1):
+    array_range_df.append([i])
+
+
+print(np.shape(array_zeros_df))
+print(np.shape(array_range_df))
