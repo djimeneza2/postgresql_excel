@@ -66,7 +66,13 @@ tabla=[
 'medicion_eng_dc_unimar_sum12317105_sum12317105',
 'medicion_eng_dc_fabrica_hielofish_sum15289354',
 'medicion_eng_dc_agropesca_del_peru_sum17815058',
-'medicion_eng_dc_limonespiuranos_sum10888885'
+'medicion_eng_dc_limonespiuranos_sum10888885',
+'medicion_eng_dc_agropesca_del_peru_sum10490980',
+'medicion_eng_dc_bahia_norte_sum6671521_cl',
+'medicion_eng_dc_bahia_norte_sum8248360_cl',
+'medicion_eng_dc_isla_bella_sum6711369_cl',
+'medicion_eng_dc_consorcio_carsol_sum16653302_piura_cl'
+
 
 ]
 
