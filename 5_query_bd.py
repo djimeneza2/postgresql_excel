@@ -2,8 +2,8 @@ import numpy as np
 from Z_data_base_query import *
 from Z_search_for_excelfiles import *
 
-mes = '12'
-anho='2022'
+mes = '01'
+anho='2023'
 
 search_path_root='/config/workspace/root_inicio'
 search_path_client='/'+'ENOSA'
@@ -17,7 +17,15 @@ search_final_path_data=search_final_path+'/'
 query_extract ='''
     SELECT codigo_string
 	FROM public.nombre_barra_facturacion
-    WHERE id_licitacion=15 AND id_barra_suministro=1 AND id_oferta=41;
+    WHERE id_tipo_cliente=1 AND
+    id_cliente=1 AND
+    id_contrato=1 AND
+    id_licitacion=15 AND
+    id_oferta=41 AND	 
+    id_mercado=3 AND	
+    id_barra_referencia=1 AND
+    id_barra_suministro=1
+    ;
 '''
 
 '''
@@ -29,6 +37,20 @@ id_oferta:8,39,41
 id_mercado:3	
 id_barra_referencia:1,3	
 id_barra_suministro:1,2,4
+
+id_tipo_cliente	id_cliente	id_contrato	id_licitacion	id_oferta	id_mercado	id_barra_referencia	id_barra_suministro
+
+regulado	    ENOSA	    BILATERAL	BI0119	        DIST	    LIBR	    PIURA220	        PiuraOeste60
+1	            1	        1	        15	            41	        3	        1	                1
+
+
+regulado	    ENOSA	    BILATERAL	BI0119	        DIST	    LIBR	    PIURA220	        PiuraOeste10
+1	            1	        1	        15	            41	        3	        1	                2
+
+
+regulado	    ENOSA	    BILATERAL	BI0119	        DIST	    LIBR	    ZORRITOS220	        NuevaZorritos60
+1	            1	        1	        15	            41	        3	        3	                4
+
 '''
 
 
@@ -78,8 +100,8 @@ for i in range(np.shape(mediciones)[0]):
                                             "172.25.0.1",
                                             "5432",
                                             "mediciones_cliente").postgresql_to_array(mediciones[i][0],
-                                                                                    '2022-12-01 00:15',
-                                                                                    '2023-01-01 00:00')
+                                                                                    '2023-01-01 00:15',
+                                                                                    '2023-02-01 00:00')
     
     dict_medicion[mediciones[i][0]]=pd.DataFrame(data_dataframe , columns=['id',
                                                                             'kwh',
