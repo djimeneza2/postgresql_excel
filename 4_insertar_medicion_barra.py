@@ -103,7 +103,7 @@ for client,numero,tabla in par_postgresql:
     dataframe_prueba.to_csv(copy_path_root+
                         copy_path_client+ 
 
-                        copy_path_year+ '/'+mes+'_'+anho+'/revision_libres/'+str(numero)+'.csv')
+                        copy_path_year+ '/'+mes+'_'+anho+'/revision_libres/'+str(tabla)+'.csv')
 
 
 print('############### tiempo ejecucion')

@@ -4,8 +4,8 @@ from Z_data_base_query import *
 
 inicio_ejecucion=datetime.datetime.now()
 
-mes = '12'
-anho='2022'
+mes = '01'
+anho='2023'
 
 search_path_root='/config/workspace/root_inicio'
 search_path_client='/'+'ENOSA'
