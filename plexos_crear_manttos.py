@@ -81,22 +81,22 @@ if __name__=='__main__':
     
     df_mantenimientos_dropduplicate.to_csv('./manto_sin_duplicado.csv',encoding='latin1')
 
-    df_coes_hidros['porcentaje']=pkg_copy_paste.np.zeros(pkg_copy_paste.np.shape(df_coes_hidros['codigo']),dtype=int)
+    df_coes_hidros['value_replace']=pkg_copy_paste.np.zeros(pkg_copy_paste.np.shape(df_coes_hidros['codigo']),dtype=int)
 
-    df_coes_hidros['codigo_plexos']=pkg_copy_paste.np.zeros(pkg_copy_paste.np.shape(df_coes_hidros['codigo']),dtype=int)
+    df_coes_hidros['unit']=pkg_copy_paste.np.zeros(pkg_copy_paste.np.shape(df_coes_hidros['codigo']),dtype=int)
 
     for i in df_coes_hidros.index:
         if pkg_copy_paste.np.shape(df_hidros_coes_plexos[df_hidros_coes_plexos['codigo_coes']==df_coes_hidros.loc[i,'codigo']])[0]>0:
-            df_coes_hidros.loc[i,'porcentaje']=100*pkg_copy_paste.np.array(df_hidros_coes_plexos[df_hidros_coes_plexos['codigo_coes']==df_coes_hidros.loc[i,'codigo']]['porcentaje'].to_list())[0]           
-            df_coes_hidros.loc[i,'codigo_plexos']=pkg_copy_paste.np.array(df_hidros_coes_plexos[df_hidros_coes_plexos['codigo_coes']==df_coes_hidros.loc[i,'codigo']]['central_plexos'].to_list())[0]
+            df_coes_hidros.loc[i,'value_replace']=100*pkg_copy_paste.np.array(df_hidros_coes_plexos[df_hidros_coes_plexos['codigo_coes']==df_coes_hidros.loc[i,'codigo']]['porcentaje'].to_list())[0]           
+            df_coes_hidros.loc[i,'unit']=pkg_copy_paste.np.array(df_hidros_coes_plexos[df_hidros_coes_plexos['codigo_coes']==df_coes_hidros.loc[i,'codigo']]['central_plexos'].to_list())[0]
 
-    df_coes_hidros['codigo_plexos']=df_coes_hidros['codigo_plexos'].replace(0,pkg_copy_paste.np.nan)
-    df_coes_hidros=df_coes_hidros[['codigo_plexos','fecha_inic','fecha_fin','porcentaje']].dropna(subset=['codigo_plexos','porcentaje'])
+    df_coes_hidros['unit']=df_coes_hidros['unit'].replace(0,pkg_copy_paste.np.nan)
+    df_coes_hidros=df_coes_hidros[['unit','fecha_inic','fecha_fin','value_replace']].dropna(subset=['unit','value_replace'])
 
-    df_coes_hidros['fecha_inic']=df_coes_hidros['fecha_inic'].apply(lambda x: '('+str(x.year)+','+str(x.month)+','+str(x.day)+','+str(x.hour)+','+'0'+')')
-    df_coes_hidros['fecha_fin']=df_coes_hidros['fecha_fin'].apply(lambda x: '('+str(x.year)+','+str(x.month)+','+str(x.day)+','+str(x.hour)+','+'0'+')')
+    df_coes_hidros['date_init']=df_coes_hidros['fecha_inic'].apply(lambda x: '('+str(x.year)+','+str(x.month)+','+str(x.day)+','+str(x.hour)+','+'0'+')')
+    df_coes_hidros['date_end']=df_coes_hidros['fecha_fin'].apply(lambda x: '('+str(x.year)+','+str(x.month)+','+str(x.day)+','+str(x.hour)+','+'0'+')')
 
-    df_coes_hidros.to_csv('./manto_hidros.csv',encoding='latin1',index=False)
+    df_coes_hidros.to_csv('./manto_hidros.csv',index=False)
     #df_coes_termicas.to_csv('./manto_termicas.csv',encoding='latin1')
     #df_coes_eolicas.to_csv('./manto_eolicas.csv',encoding='latin1')
     #df_coes_solares.to_csv('./manto_solares.csv',encoding='latin1')
