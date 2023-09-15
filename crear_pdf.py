@@ -31,7 +31,7 @@ class print_excel_as_pdf():
 ###############################################################################
         
 year=2023
-month='07'
+month='09'
 
 ###############################################################################
 
@@ -55,7 +55,7 @@ dict_array_sheets={1:'OSINERG',
 
 path_excel_f='P:/EnerSur/Comercial/Facturacion/06_Precios_Tarifas/'
 client='Precios_Enviados_a_Osinergmin'
-file_excel='Precios_Contratos_Distribuidoras-1'
+file_excel='Precios_Contratos_Distribuidoras - 1'
 path_excel_final_1= path_excel_f+client+'/'+str(year)+'/'+str(month)+'_'+str(year)+'/'+str(month)+'_'+str(year)+'_'+file_excel+'.xlsx'  
 path_pdf_f=path_excel_f
 
