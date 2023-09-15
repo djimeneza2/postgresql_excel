@@ -671,10 +671,8 @@ for fuel,file in zip(fuel_prices_names,data_fuel):
 
 #prueba_final.to_csv('./dataframe_aguas.csv',index=False)
 
-#prueba5.funcCreateArchivesCsv()
-'''
+#data_columnas=np.array(read_data_columnas['central_plexos'].to_list())
 
-#crear CSV de mantenimientos
 data_columnas= ['Platanal', 
                 'Callahuanca', 
                 'Callahuanca4', 
@@ -722,21 +720,15 @@ data_columnas= ['Platanal',
                 'Chaglla',
                 'MANTARO',
                 'Maranon']
+'''
+data_columnas=['Platanal', 'Callahuanca', 'Callahuanca4']
+'''
+#print(data_columnas)
 
-
-dataframe_manttos=pd.read_csv('./manto_hidros.csv') 
+dataframe_manttos=pd.read_csv('./manto_thermal.csv') 
 
 prueba4=ModifyDataFrameMultiYears(2023,2024,48,data_columnas,0,dataframe_manttos)
 
 dataframe_fin_mod=prueba4.funChangeDataInDataframeColumn()
 
 dataframe_fin_mod.to_csv('./plexos_mantto_hidros.csv')
-
-'''
-
-
-
-
-final=pkg_copy_paste.time.time()
-   
-print(f'ejecucion finalizada de copy and paste en {final-inicio} segundos')
