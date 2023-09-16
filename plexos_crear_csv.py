@@ -1,10 +1,8 @@
-import pkg_copy_paste
 import pandas as pd
 import numpy as np
 import datetime
 import ast
-import math
- 
+import pkg_copy_paste 
 
 
 class ArrayMonthDaysPeriods():
@@ -203,11 +201,7 @@ class ModifyDataFrameMultiYears(CreateDataframeOfMultiYears):
 
         for i in range_iterate:
 
-            print('mantenimiento '+str(i)+
-                  ' para la central '+str(self.funCalcDifDates()['unit'].loc[i])+
-                  ' desde la hora '+str(self.funCalcDifDates()['date_init'].loc[i])+
-                  ' hasta la hora '+str(self.funCalcDifDates()['date_end'].loc[i])+
-                  ' con valor de '+str(self.funCalcDifDates()['value_replace'].loc[i]))
+            print('mantenimiento '+str(i)+' para la central '+str(self.funCalcDifDates()['unit'].loc[i])+' a la hora inicial '+str(self.funCalcDifDates()['date_init'].loc[i]))
 
             date_from=self.parse_tuple(self.funCalcDifDates()['date_init_p'].loc[i])
 
@@ -221,209 +215,80 @@ class ModifyDataFrameMultiYears(CreateDataframeOfMultiYears):
             self.data_frame_fin_mod=dataframe_fin
 
         return self.data_frame_fin_mod
-
-class CreateCsvOfInflowsInUnitaryCsv(CreateDataframeOfMultiYears):
-
-    def __init__(self,
-                 year_init,
-                 year_end,
-                 periodsperdays,
-                 array_columns,
-                 data_complete_blanks,
-                 dataframe_inflows_plexos,#todos los inflows
-                 data_tablas_plexos):#tabla que relaciona nombre de los inflows con su archivo
         
-        super().__init__(year_init,
-                         year_end,
-                         periodsperdays,
-                         array_columns,
-                         data_complete_blanks)
-        
-        self.dataframe_inflows_plexos=dataframe_inflows_plexos
-        self.data_tablas_plexos=data_tablas_plexos
-
-    def funcCreateCscOfInflows(self,name_fwd):
-
-        dataframe_fin=CreateDataframeOfMultiYears(self.year_init,
-                                                self.year_end,
-                                                self.periodsperdays,
-                                                self.array_columns,
-                                                self.data_complete_blanks).funcmultiyear()
-        
-
-        #df_unitario=self.dataframe_inflows_plexos[self.dataframe_inflows_plexos['NAME']=='CAguila_FWD']
-        df_unitario=self.dataframe_inflows_plexos[self.dataframe_inflows_plexos['NAME']==name_fwd]
-        #print(np.shape(df_unitario)[0])
-        new_index=np.arange(np.shape(df_unitario)[0])
-        df_unitario=pd.DataFrame(df_unitario.to_numpy(),index=new_index,columns=df_unitario.columns)
-
-        #print(df_unitario)
-
-        #for i in self.data_tablas_plexos['scenario']:
-
-        lambda_hours=lambda x:math.ceil(x/2)-1
-        lambda_minutes=lambda x: 30 if x%2==0 else 0
-
-        date_last_df_unitario=datetime.datetime(int(df_unitario.loc[df_unitario.index[-1],'YEAR']),
-                                                int(df_unitario.loc[df_unitario.index[-1],'MONTH']),
-                                                int(df_unitario.loc[df_unitario.index[-1],'DAY']),
-                                                int(lambda_hours(df_unitario.loc[df_unitario.index[-1],'PERIOD'])),
-                                                int(lambda_minutes(df_unitario.loc[df_unitario.index[-1],'PERIOD']))
-                                                )
-        
-        date_last_dataframe_fin=datetime.datetime(int(dataframe_fin.loc[dataframe_fin.index[-1],'YEAR']), 
-                                                    int(dataframe_fin.loc[dataframe_fin.index[-1],'MONTH']),
-                                                    int(dataframe_fin.loc[dataframe_fin.index[-1],'DAY']),
-                                                    int(lambda_hours(dataframe_fin.loc[dataframe_fin.index[-1],'PERIOD'])),
-                                                    int(lambda_minutes(dataframe_fin.loc[dataframe_fin.index[-1],'PERIOD']))
-                                                    )
-
-        last_index_init=0
-
-        while last_index_init<np.shape(dataframe_fin.index)[0]:  
-
-            for j in np.arange(np.shape(df_unitario.index)[0]-1):
-
-                date_init_df_unitario=datetime.datetime(int(df_unitario.loc[j,'YEAR']),
-                                                                    int(df_unitario.loc[j,'MONTH']),
-                                                                    int(df_unitario.loc[j,'DAY']),
-                                                                    int(lambda_hours(df_unitario.loc[j,'PERIOD'])),
-                                                                    int(lambda_minutes(df_unitario.loc[j,'PERIOD']))
-                                                                    )
-                
-                date_init_df_unitario_1=datetime.datetime(int(df_unitario.loc[j+1,'YEAR']),
-                                                                    int(df_unitario.loc[j+1,'MONTH']),
-                                                                    int(df_unitario.loc[j+1,'DAY']),
-                                                                    int(lambda_hours(df_unitario.loc[j+1,'PERIOD'])),
-                                                                    int(lambda_minutes(df_unitario.loc[j+1,'PERIOD']))
-                                                                    )
-                
-
-                
-                #index_to_search=np.arange(index_init,np.shape(dataframe_fin.index)[0])
-                #print('fecha date_init_df_unitario: '+str(date_init_df_unitario))
-                #print('fecha date_init_df_unitario+1: '+str(date_init_df_unitario_1))
-
-                index_init=last_index_init
-                end_while=0
-
-                if date_init_df_unitario>date_last_dataframe_fin:
-                    break
-
-                while index_init<np.shape(dataframe_fin.index)[0] and end_while==0:#>=0
-
-                    date_init_dataframe_fin=datetime.datetime(int(dataframe_fin.loc[index_init,'YEAR']), 
-                                                                int(dataframe_fin.loc[index_init,'MONTH']),
-                                                                int(dataframe_fin.loc[index_init,'DAY']),
-                                                                int(lambda_hours(dataframe_fin.loc[index_init,'PERIOD'])),
-                                                                int(lambda_minutes(dataframe_fin.loc[index_init,'PERIOD']))
-                                                                )
-                        
-                    #print('fecha date_init_dataframe_fin: '+str(date_init_dataframe_fin))
-                                        
-                    if date_init_dataframe_fin>=date_init_df_unitario and date_init_dataframe_fin<date_init_df_unitario_1:
-                        for i in np.arange(1,61):
-                            dataframe_fin.loc[index_init,i]=df_unitario.loc[j,str(i)]
-                        index_init+=1
-
-                    elif date_init_dataframe_fin>=date_init_df_unitario_1:
-                        last_index_init=index_init
-                        end_while=1
-
-                    elif date_init_dataframe_fin<date_init_df_unitario:
-                        index_init+=1
-
-            if date_init_df_unitario>date_last_dataframe_fin:
-                break
-                    
-        self.dataframe_fina_1=dataframe_fin
-        return self.dataframe_fina_1
-    
-    def funcCreateArchivesCsv(self):
-
-        for i in self.data_tablas_plexos.index:
-
-            archivo=self.funcCreateCscOfInflows(self.data_tablas_plexos.loc[i,'scenario'])
-
-            archivo.to_csv('./'+'data_generada/'+str(self.data_tablas_plexos.loc[i,'archive_csv'])+'.csv')
-        
-        return print('archivos_creados')
-    
-
-
-
-
 
 ##################################################################################################################################################################
 
-
 inicio = pkg_copy_paste.time.time()
+#data_columnas=['unit1','unit2','unit3']
 
-data_columnas=pkg_copy_paste.np.arange(1,61)
 
-dataframe_inflows_plexos=pkg_copy_paste.pd.read_csv('./NaturalInflows_FWD.csv')
+#read_data_columnas=pd.read_excel('./manttos_final.xlsx',sheet_name='bd_hidros')
 
-#print(dataframe_inflows_plexos)
+#read_data_columnas=read_data_columnas.drop_duplicates(subset=['central_plexos'],keep='last')
 
-data_tablas_plexos=pkg_copy_paste.pd.read_csv('./tabla_inflows_csv.csv')
+#read_data_columnas=read_data_columnas.dropna(subset=['central_plexos'])
 
-hidro_names=[
-'00057_ch_01018_pariac'	
+#data_columnas=np.array(read_data_columnas['central_plexos'].to_list())
+'''
+data_columnas= ['00057_ch_01018_pariac'
 ,'00260_ch_00055_cahua'
 ,'00261_ch_00018_callahuanca'
-,'00264_ch_00061_carhuaquero'	
-,'00267_ch_00073_canhon_del_pato'	
-,'00269_ch_00100_gallito_ciego'	
-,'00270_ch_00026_huampani	'
-,'00272_ch_00022_huinco'	
-,'00276_ch_00039_malpaso	'
-,'00277_ch_00001_mantaro	'
-,'00280_ch_00028_matucana	'
-,'00282_ch_00030_moyopampa'	
-,'00283_ch_00043_oroya	'
+,'00264_ch_00061_carhuaquero'
+,'00267_ch_00073_canhon_del_pato'
+,'00269_ch_00100_gallito_ciego'
+,'00270_ch_00026_huampani'
+,'00272_ch_00022_huinco'
+,'00276_ch_00039_malpaso'
+,'00277_ch_00001_mantaro'
+,'00280_ch_00028_matucana'
+,'00282_ch_00030_moyopampa'
+,'00283_ch_00043_oroya'
 ,'00285_ch_00046_pachachaca'
-,'00286_ch_00008_restitucion'	
-,'00291_ch_00050_yaupi'	
-,'00978_ch_00108_yanango'	
-,'01191_ch_00109_chimay'	
-,'01195_ch_00111_charcani_1'	
+,'00286_ch_00008_restitucion'
+,'00291_ch_00050_yaupi'
+,'00978_ch_00108_yanango'
+,'01191_ch_00109_chimay'
+,'01195_ch_00111_charcani_1'
 ,'01196_ch_00113_charcani_2'
-,'01197_ch_00116_charcani_3'	
-,'01198_ch_00118_charcani_4'	
-,'01199_ch_00121_charcani_5'	
-,'01200_ch_00188_charcani_6'	
-,'01201_ch_00124_aricota_1'	
-,'01203_ch_00126_machupicchu'	
-,'01206_ch_00190_san_gaban_2'	
-,'10609_ch_00193_huanchor'	
-,'11116_ch_00199_yuncan'	
-,'11842_ch_00205_canha_brava'	
-,'11877_ch_11878_santacruz_1'	
-,'12193_ch_12194_poechos_2'	
-,'12201_ch_12202_la_joya'	
-,'12600_ch_12601_el_platanal'	
-,'12652_ch_12650_santacruz_2'	
-,'12722_ch_12760_roncador'	
-,'13368_ch_13411_imperial'	
-,'13513_ch_13514_yanapampa'	
+,'01197_ch_00116_charcani_3'
+,'01198_ch_00118_charcani_4'
+,'01199_ch_00121_charcani_5'
+,'01200_ch_00188_charcani_6'
+,'01201_ch_00124_aricota_1'
+,'01203_ch_00126_machupicchu'
+,'01206_ch_00190_san_gaban_2'
+,'10609_ch_00193_huanchor'
+,'11116_ch_00199_yuncan'
+,'11842_ch_00205_canha_brava'
+,'11877_ch_11878_santacruz_1'
+,'12193_ch_12194_poechos_2'
+,'12201_ch_12202_la_joya'
+,'12600_ch_12601_el_platanal'
+,'12652_ch_12650_santacruz_2'
+,'12722_ch_12760_roncador'
+,'13368_ch_13411_imperial'
+,'13513_ch_13514_yanapampa'
 ,'13574_ch_13575_las_pizarras'
-,'14005_ch_14006_huanza'	
-,'14005_ch_14006_huanza'	
-,'14844_ch_14845_santa_teresa'	
-,'14909_ch_00204_carhuaquero_4'	
-,'14964_ch_14965_cheves'	
-,'14970_ch_14971_chaglla'	
-,'15210_ch_15211_cerro_del_aguila'	
-,'17492_ch_17493_maranhon'		
-,'17551_ch_00055_yarucaya'	
-,'18186_ch_18187_la_virgen'	
-,'18949_ch_18952_angel_1'	
-,'18950_ch_18955_angel_2'	
+,'14005_ch_14006_huanza'
+,'14844_ch_14845_santa_teresa'
+,'14909_ch_00204_carhuaquero_4'
+,'14964_ch_14965_cheves'
+,'14970_ch_14971_chaglla'
+,'15210_ch_15211_cerro_del_aguila'
+,'17492_ch_17493_maranhon'
+,'17551_ch_00055_yarucaya'
+,'18186_ch_18187_la_virgen'
+,'18949_ch_18952_angel_1'
+,'18950_ch_18955_angel_2'
 ,'18951_ch_18956_angel_3'
 ]
 
-thermal_names=[
-'00258_ct_00209_aguaytia_tg1'
+
+'''
+
+
+data_columnas= ['00258_ct_00209_aguaytia_tg1'
 ,'00258_ct_00210_aguaytia_tg2'
 ,'00275_ct_00271_malacas2_tg4'
 ,'00289_ct_00221_santarosa1_uti5d'
@@ -452,8 +317,8 @@ thermal_names=[
 ,'01205_ct_00355_chilina_td'
 ,'01214_ct_00346_mollendo_td'
 ,'11513_ct_00292_chilca1_tg1'
-,'11513_ct_00292_chilca1_tg2'
-,'11513_ct_00303_chilca1_tg3'
+,'11513_ct_00295_chilca1_tg2'
+,'11513_ct_00302_chilca1_tg3'
 ,'11513_ct_00327_chilca1_tg1tv'
 ,'11513_ct_00328_chilca1_tg2tv'
 ,'11513_ct_00329_chilca1_tg3tv'
@@ -467,6 +332,26 @@ thermal_names=[
 ,'11571_ct_00320_kallpa_tg1tv'
 ,'11571_ct_00321_kallpa_tg2tv'
 ,'11571_ct_00322_kallpa_tg3tv'
+,'11571_ct_00323_kallpa_tg1tg2tv'
+,'11571_ct_00324_kallpa_tg2tg3tv'
+,'11571_ct_00325_kallpa_tg1tg3tv'
+,'11571_ct_00326_kallpa_tg1tgtg3tv'
+,'11883_ct_00298_oquendo_tg1'
+,'11883_ct_03418_oquendo_tv1'
+,'11883_ct_03424_oquendoi_tg1tv'
+,'12720_ct_00304_las_flores_tg1'
+,'12720_ct_03375_las_flores_tg1tv'
+,'12781_ct_00312_independencia_tg'
+,'12815_ct_00309_paramonga_tg'
+,'13417_ct_00317_maple_tv'
+,'13549_ct_00339_rf_ilo_td1'
+,'13549_ct_00340_rf_ilo_td2'
+,'13549_ct_00341_rf_ilo_td3'
+,'13601_ct_00344_fenix_tg12'
+,'13601_ct_00345_fenix_tg12tv'
+,'13601_ct_00347_fenix_tg11'
+,'13601_ct_00348_fenix_tg11tv'
+,'13601_ct_00349_fenix_tg11tg12tv'
 ,'13601_ct_00553_fenix_td11tv'
 ,'13601_ct_00554_fenix_td11'
 ,'13601_ct_00555_fenix_td12tv'
@@ -496,239 +381,24 @@ thermal_names=[
 ,'20510_ct_00575_canha_brava_tv1tv2'
 ]
 
-wind_names=[
-'14160_ce_14310_marcona'
-,'14407_ce_14408_cupisnique'
-,'14426_ce_14427_talara'
-,'15160_ce_15161_tres_hermanas'
-,'18306_ce_18307_wayra_1'
-,'21117_ce_21118_huambos'
-,'21298_ce_21299_duna'
-,'22190_ce_22377_punta_lomitas'
-]
-
-solar_names=[
-'13399_cs_13509_reparticion'
-,'13402_cs_13508_majes'
-,'13503_cs_13460_tacna'
-,'13533_cs_13566_panamericana'
-,'14762_cs_14763_moquegua'
-,'17796_cs_17797_intipampa'
-,'18074_cs_18082_ruby'
-,'21771_cs_21772_yarucaya'
-]
-
-rer_hydro_names=[
-'10691_ch_10733_huayllacho'
-,'10692_ch_10734_misapuquio'
-,'10693_ch_11407_san_antonio'
-,'10694_ch_10699_san_ignacio'
-,'13132_ch_13133_purmacana'
-,'13302_ch_13302_huasahuasi_1'
-,'13303_ch_13303_huasahuasi_2'
-,'14776_ch_14776_runatullo_3'
-,'14777_ch_14777_runatullo_2'
-,'14792_ch_14792_chancayllo'
-,'15563_ch_15563_pch_chaglla'
-,'16277_ch_16277_chancay'
-,'16285_ch_16285_rucuy'
-,'17034_ch_17034_potrero'
-,'17551_ch_17551_yarucaya'
-,'17965_ch_17965_mch_cerro_del_aguila'
-,'18263_ch_18263_renovandes_h1'
-,'18790_ch_18790_her_1'
-,'18966_ch_18967_carhuac'
-,'20581_ch_20582_8_de_agosto'
-,'20589_ch_20590_el_carmen'
-,'20667_ch_20667_manta_1'
-,'21749_ch_21750_santarosa_1'
-,'21751_ch_21752_santarosa_2'
-]
-
-rer_thermal_names=[
-'12112_ct_00841_la_gringa_5'
-,'13298_ct_00313_huaycoloro'
-,'18812_ct_00699_donha_catalina'
-,'19865_ct_00570_san_jacinto'
-,'20850_ct_00705_ctb_callao'
-
-]
-
-fuel_prices_names=[
-'fuel_00258_gas_aguaytia'
-,'fuel_00275_gas_malacas_2'
-,'fuel_00289_oil_santa_rosa_1'
-,'fuel_00289_gas_santa_rosa_1'
-,'fuel_00290_oil_ventanilla'
-,'fuel_00290_gas_ventanilla'
-,'fuel_00987_oil_san_nicolas'
-,'fuel_01066_gas_santa_rosa_2'
-,'fuel_01205_oil_chilina_diesel'
-,'fuel_01214_oil_mollendo_diesel'
-,'fuel_11513_gas_chilca_1'
-,'fuel_11571_gas_kallpa'
-,'fuel_11883_gas_oquendo'
-,'fuel_12720_gas_las_flores'
-,'fuel_12781_gas_independencia'
-,'fuel_12815_nan_paramonga'
-,'fuel_13417_nan_maple_etanol'
-,'fuel_13549_oil_rf_planta_ilo'
-,'fuel_13601_gas_fenix'
-,'fuel_13601_oil_fenix'
-,'fuel_13656_gas_olleros'
-,'fuel_14908_oil_rf_de_generacion_talara'
-,'fuel_14908_gas_rf_de_generacion_talara'
-,'fuel_14927_oil_rf_de_generacion_eten'
-,'fuel_15107_oil_recka'
-,'fuel_15214_oil_puerto_bravo'
-,'fuel_15785_gas_chilca_2'
-',fuel_16290_oil_rf_pto_maldonado'
-,'fuel_16291_oil_rf_pucallpa'
-,'fuel_16327_oil_nepi'
-,'fuel_16926_gas_malacas_1'
-,'fuel_20510_nan_canha_brava'
-]
-
-data_fuel=[
-'data_fuel_00258_gas_aguaytia'
-,'data_fuel_00275_gas_malacas_2'
-,'data_fuel_00289_oil_santa_rosa_1'
-,'data_fuel_00289_gas_santa_rosa_1'
-,'data_fuel_00290_oil_ventanilla'
-,'data_fuel_00290_gas_ventanilla'
-,'data_fuel_00987_oil_san_nicolas'
-,'data_fuel_01066_gas_santa_rosa_2'
-,'data_fuel_01205_oil_chilina_diesel'
-,'data_fuel_01214_oil_mollendo_diesel'
-,'data_fuel_11513_gas_chilca_1'
-,'data_fuel_11571_gas_kallpa'
-,'data_fuel_11883_gas_oquendo'
-,'data_fuel_12720_gas_las_flores'
-,'data_fuel_12781_gas_independencia'
-,'data_fuel_12815_nan_paramonga'
-,'data_fuel_13417_nan_maple_etanol'
-,'data_fuel_13549_oil_rf_planta_ilo'
-,'data_fuel_13601_gas_fenix'
-,'data_fuel_13601_oil_fenix'
-,'data_fuel_13656_gas_olleros'
-,'data_fuel_14908_oil_rf_de_generacion_talara'
-,'data_fuel_14908_gas_rf_de_generacion_talara'
-,'data_fuel_14927_oil_rf_de_generacion_eten'
-,'data_fuel_15107_oil_recka'
-,'data_fuel_15214_oil_puerto_bravo'
-,'data_fuel_15785_gas_chilca_2'
-,'data_fuel_16290_oil_rf_pto_maldonado'
-,'data_fuel_16291_oil_rf_pucallpa'
-,'data_fuel_16327_oil_nepi'
-,'data_fuel_16926_gas_malacas_1'
-,'data_fuel_20510_nan_canha_brava'
-
-]
-
-
-#crear_plantilla_multiyears=CreateDataframeOfMultiYears(2023,2030,48,rer_thermal_names,0)
-
-#df_plantilla_hidros=crear_plantilla_multiyears.funcmultiyear()
-
-#df_plantilla_hidros.to_csv('0_plantilla_rer_thernal.csv',index=False)
-
-#data_csv_generados=pkg_copy_paste.pd.read_csv('./data_generada/tabla_inflows_csv.csv')
-
-#df_eliminar_primer_index=pkg_copy_paste.pd.read_csv('./data_generada/data_inflows_00000_angel123.csv')
-
-#df_eliminar_primer_index=df_eliminar_primer_index.loc[:,~df_eliminar_primer_index.columns.str.contains('^Unnamed')]
-
-#print(df_eliminar_primer_index)
-
-'''
-for i in data_tablas_plexos.index:
-
-    df_eliminar_primer_index=pkg_copy_paste.pd.read_csv('./data_generada/'+str(data_tablas_plexos.loc[i,'archive_csv'])+'.csv')
-
-    df_eliminar_primer_index=df_eliminar_primer_index.loc[:,~df_eliminar_primer_index.columns.str.contains('^Unnamed')]
-
-    df_eliminar_primer_index.to_csv('./data_generada/'+str(data_tablas_plexos.loc[i,'archive_csv'])+'.csv',index=False)
-
-'''
-
-for fuel,file in zip(fuel_prices_names,data_fuel):
-
-    #print(fuel)
-    #print(file)
-
-    #obj_data=CreateDataframeOfMultiYears(2023,2030,48,[str(fuel)],0)
-    obj_data=CreateDataframeOfMultiYears(2023,2030,48,[1],0)
-    df=obj_data.funcmultiyear()
-    df.to_csv('./data_generada_fuel/'+str(file)+'.csv',index=False)
-
-
-
-#print(data_tablas_plexos)
-
-#prueba5=CreateCsvOfInflowsInUnitaryCsv(2023,2024,48,data_columnas,0,dataframe_inflows_plexos,data_tablas_plexos)
-
-#prueba_final=prueba5.funcCreateCscOfInflows()
-
-#prueba_final.to_csv('./dataframe_aguas.csv',index=False)
-
-#data_columnas=np.array(read_data_columnas['central_plexos'].to_list())
-
-data_columnas= ['Platanal', 
-                'Callahuanca', 
-                'Callahuanca4', 
-                'Chimay', 
-                'Huampani',
-                'Huinco',
-                'Matucana',
-                'Moyopampa',
-                'Cahua',
-                'GCiego',
-                'Huayllacho',
-                'Malpaso',
-                'Misapuquio',
-                'Oroya',
-                'Pachachaca',
-                'Pariac',
-                'SanAntonio',
-                'SanIgnacio',
-                'Yaupi',
-                'SAN_GABAN_II',
-                'StaCruz2',
-                'StaCruz1',
-                'La Joya',
-                'Yuncan',
-                'Quitaracsa', 
-                'Restitucion',
-                'Mantaro',
-                'CanonPato',
-                'Cana Brava',
-                'Tablachaca',
-                'Machupicchu',
-                'Carhuaquero',
-                'Carhuaquero4',
-                'AricotaI',
-                'AricotaII',
-                'Charcani123',
-                'Charcani4',
-                'Charcani5',
-                'Charcani6',
-                'Huanza',
-                'StaTeresa',
-                'Cheves',
-                'CAguila',
-                'Yanango',
-                'Chaglla',
-                'MANTARO',
-                'Maranon']
-'''
-data_columnas=['Platanal', 'Callahuanca', 'Callahuanca4']
-'''
 #print(data_columnas)
 
 dataframe_manttos=pd.read_csv('./manto_thermal.csv') 
 
 prueba4=ModifyDataFrameMultiYears(2023,2024,48,data_columnas,0,dataframe_manttos)
 
+#dataframe_final=prueba4.funcmultiyear()
+
+#dataframe_final.to_csv('./plantilla-data-final.csv')
+
+#df_calcdifdates=prueba4.funCalcDifDates()
+
+#df_calcdifdates.to_csv('./plantilla-calcdifdate-final.csv')
+
 dataframe_fin_mod=prueba4.funChangeDataInDataframeColumn()
 
 dataframe_fin_mod.to_csv('./plexos_mantto_hidros.csv')
+
+final=pkg_copy_paste.time.time()
+   
+print(f'ejecucion finalizada de copy and paste en {final-inicio} segundos')
