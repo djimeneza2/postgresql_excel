@@ -18,11 +18,17 @@ ruta=ruta1+ruta2
 
 ruta='./'
 
-archivo='Historical_Inflows_DJ.csv'
+archivo='Historical_Inflows_DJ_prueba.csv'
+
+archivo_2='data_plantilla_embalses.csv'
 
 ruta_final=ruta+archivo
 
+ruta_final_2=ruta+archivo_2
+
 dataframe_frame_2=pkg_copy_paste.pd.read_csv(ruta_final) 
+
+dataframe_frame_2_2=pkg_copy_paste.pd.read_csv(ruta_final_2) 
 
 ruta_periods='./'
 
@@ -42,6 +48,15 @@ for i in dataframe_frame_2.index:
                                                       day=dataframe_frame_2.loc[i,'DAY'],
                                                       hour=np.array(periods_to_hours['HOUR'][periods_to_hours['PERIOD']==dataframe_frame_2.loc[i,'PERIOD']])[0],
                                                       minute=np.array(periods_to_hours['MINUTE'][periods_to_hours['PERIOD']==dataframe_frame_2.loc[i,'PERIOD']])[0])
+    
+
+for i in dataframe_frame_2_2.index:
+
+    dataframe_frame_2_2.loc[i,'DATE']=datetime.datetime(year=dataframe_frame_2_2.loc[i,'YEAR'],
+                                                      month=dataframe_frame_2_2.loc[i,'MONTH'],
+                                                      day=dataframe_frame_2_2.loc[i,'DAY'],
+                                                      hour=np.array(periods_to_hours['HOUR'][periods_to_hours['PERIOD']==dataframe_frame_2_2.loc[i,'PERIOD']])[0],
+                                                      minute=np.array(periods_to_hours['MINUTE'][periods_to_hours['PERIOD']==dataframe_frame_2_2.loc[i,'PERIOD']])[0])
 
 #print(dataframe_frame_2)
 
@@ -52,11 +67,24 @@ for column in dataframe_frame_2.columns:
     else:
         #x=np.array(dataframe_frame_2['DATE'][dataframe_frame_2['DATE']<datetime.datetime(2023,1,1)])
         #y=np.array(dataframe_frame_2[column][dataframe_frame_2['DATE']<datetime.datetime(2023,1,1)])
-        x=np.array(dataframe_frame_2['DATE'])
-        y=np.array(dataframe_frame_2[column])
-        fig, ax =plt.subplots()
-        ax.plot(x,y,color='blue')
-        ax.set_title(column)
+
+        for column_2 in dataframe_frame_2_2.columns:
+
+            if column_2==column:
+
+                x=np.array(dataframe_frame_2['DATE'])
+                y=np.array(dataframe_frame_2[column])
+
+                x2=np.array(dataframe_frame_2_2['DATE'])
+                y2=np.array(dataframe_frame_2_2[column_2])
+
+                fig, ax =plt.subplots()
+                ax.plot(x,y,color='blue',label='historical_plexos',linestyle='--')
+                ax.plot(x2,y2,color='red',label='historical engie',linestyle='dashdot')
+                ax.legend()
+                ax.set_title(column)
+
+
         
         plt.show()
 
