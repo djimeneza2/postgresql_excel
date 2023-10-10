@@ -52,16 +52,13 @@ for k in df_scenarios['SCENARIO']:#[df_scenarios['SCENARIO']<=28]
         else:
             day_h=int(df_historical_scen['DAY'][i])
         
-        if df_historical_scen['YEAR'][i+1] != df_historical_scen['YEAR'][i]:
-            date_historical_final=datetime.datetime(first_year,12,31,23,31)
-
-
         date_historical=datetime.datetime(year=int(df_historical_scen['year_scen'][i]),
                                             month=int(df_historical_scen['MONTH'][i]),
                                             day=day_h,
                                             hour=int(np.array(periods_to_hours['HOUR'][periods_to_hours['PERIOD']==df_historical_scen.loc[i,'PERIOD']])[0]),
                                             minute=int(np.array(periods_to_hours['MINUTE'][periods_to_hours['PERIOD']==df_historical_scen.loc[i,'PERIOD']])[0]))
-        
+
+
         for j in range(indice_j,np.shape(df_inflow_montecarlo)[0]):
 
             date_inflows=datetime.datetime(year=int(df_inflow_montecarlo['YEAR'][j]),
@@ -71,17 +68,38 @@ for k in df_scenarios['SCENARIO']:#[df_scenarios['SCENARIO']<=28]
                                             minute=int(np.array(periods_to_hours['MINUTE'][periods_to_hours['PERIOD']==df_inflow_montecarlo.loc[i,'PERIOD']])[0]))
 
             if date_historical>=date_inflows:
-                df_inflow_montecarlo.loc[j,k]=df_historical_scen.loc[i,column_test[0]]       
-
+                df_inflow_montecarlo.loc[j,k]=df_historical_scen.loc[i,column_test[0]]  
             else:
                 indice_j=j
                 break
+
+            indice_last_j=j
             
-            #print(f'scen={k} / date_historical= {i}:{date_historical} / date_inflows= {j}:{date_inflows}')
+            print(f'scen={k} / date_historical= {i}:{date_historical} / date_inflows= {j}:{date_inflows} / indice_j= {indice_j} / indice_last_j= {indice_last_j}')
+
+    date_inflows_last=datetime.datetime(year=int(df_inflow_montecarlo['YEAR'][indice_last_j]),
+                                        month=int(df_inflow_montecarlo['MONTH'][indice_last_j]),
+                                        day=int(df_inflow_montecarlo['DAY'][indice_last_j]),
+                                        hour=int(np.array(periods_to_hours['HOUR'][periods_to_hours['PERIOD']==df_inflow_montecarlo.loc[indice_last_j,'PERIOD']])[0]),
+                                        minute=int(np.array(periods_to_hours['MINUTE'][periods_to_hours['PERIOD']==df_inflow_montecarlo.loc[indice_last_j,'PERIOD']])[0]))
+    
+    while date_inflows_last<=datetime.datetime(first_year,12,31,23,30):
+
+        df_inflow_montecarlo.loc[indice_last_j,k]=df_inflow_montecarlo.loc[indice_last_j-1,k]
+
+        indice_last_j+=1
+
+        print(f'date_inflows_last = {date_inflows_last}')
+
+        date_inflows_last=datetime.datetime(year=int(df_inflow_montecarlo['YEAR'][indice_last_j]),
+                                        month=int(df_inflow_montecarlo['MONTH'][indice_last_j]),
+                                        day=int(df_inflow_montecarlo['DAY'][indice_last_j]),
+                                        hour=int(np.array(periods_to_hours['HOUR'][periods_to_hours['PERIOD']==df_inflow_montecarlo.loc[indice_last_j,'PERIOD']])[0]),
+                                        minute=int(np.array(periods_to_hours['MINUTE'][periods_to_hours['PERIOD']==df_inflow_montecarlo.loc[indice_last_j,'PERIOD']])[0]))
 
     #print(df_inflow_montecarlo[(df_inflow_montecarlo['YEAR']<=2023) & (df_inflow_montecarlo[k]>0)])
 
-#df_inflow_montecarlo.to_csv(f'{ruta}data_inflow_{column_test[0]}.csv',index=False) #data_inflows_es_02007_el_frayle
+df_inflow_montecarlo.to_csv(f'{ruta}data_inflow_{column_test[0]}.csv',index=False) #data_inflows_es_02007_el_frayle
 
 #for year in np.arange(first_year+1,last_year+1):
 
