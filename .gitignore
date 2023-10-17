@@ -175,7 +175,11 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 
+<<<<<<< HEAD
+#files a ignorar en git y github
+=======
 
+>>>>>>> 8c3c60d7e18fab48549ea28fcea299fdca9dd0a8
 *.csv
 *.xls
 *.xlsx

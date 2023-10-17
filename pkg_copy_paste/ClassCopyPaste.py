@@ -1,3 +1,5 @@
+
+'''
 import os
 import openpyxl
 import pandas as pd
@@ -7,6 +9,8 @@ import psycopg2
 from sqlalchemy import create_engine
 import xlwings as xw
 import gc
+'''
+import pkg_copy_paste
 
 class copy_excel_data():
 
@@ -29,13 +33,13 @@ class copy_excel_data():
     
     def activate_workbook_to_copy(self):
 
-        excel_app = xw.App(visible=False)
+        excel_app = pkg_copy_paste.xw.App(visible=False)
         excel_book = excel_app.books.open(self.final_path+self.workbook,update_links=False)
         excel_book.save()
         excel_book.close()
         excel_app.quit()
 
-        wb = openpyxl.load_workbook( self.final_path+self.workbook,data_only=True,keep_vba=False)
+        wb = pkg_copy_paste.openpyxl.load_workbook( self.final_path+self.workbook,data_only=True,keep_vba=False)
         #wb = xw.Book( self.final_path+self.workbook)
 
         wb.active
@@ -51,14 +55,14 @@ class copy_excel_data():
             for j in range( self.startCol, self.endCol+1, 1):
 
                 data=wb_sheet_copy.cell(row = i, column = j).value
-
+ 
                 #print(data)
 
                 rowSelected.append(data)
 
             self.rangeSelected.append(rowSelected)
 
-        gc.collect()
+        pkg_copy_paste.gc.collect()
 
         print('copied data from '+self.final_path+self.workbook+' sheet '+self.sheet+' complete\n')
         #print(self.rangeSelected)
@@ -86,7 +90,7 @@ class copy_excel_data_2(copy_excel_data):
 
     def activate_workbook_to_copy(self):
 
-        app = xw.App(add_book=False)
+        app = pkg_copy_paste.xw.App(add_book=False)
         app.display_alerts = False
 
         #wb = xw.Book( self.final_path+self.workbook)
@@ -135,7 +139,7 @@ class paste_excel_data():
 
     def activate_workbook_to_paste(self):
 
-        wb = openpyxl.load_workbook( self.final_path+self.workbook)
+        wb = pkg_copy_paste.openpyxl.load_workbook( self.final_path+self.workbook)
         #wb = xw.Book( self.final_path+self.workbook)
 
         wb_sheet_paste = wb.get_sheet_by_name(self.sheet)
@@ -154,7 +158,7 @@ class paste_excel_data():
             
             countRow += 1
         
-        gc.collect()
+        pkg_copy_paste.gc.collect()
 
         wb.save( self.final_path+self.workbook)
 
@@ -183,7 +187,7 @@ class paste_excel_data_2(paste_excel_data):
 
     def activate_workbook_to_paste(self):
 
-        app = xw.App(add_book=False)
+        app = pkg_copy_paste.xw.App(add_book=False)
         app.display_alerts = False
 
         #wb = xw.Book( self.final_path+self.workbook)
