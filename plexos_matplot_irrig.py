@@ -12,13 +12,13 @@ from matplotlib.gridspec import GridSpec
 
 ruta1='P:/EnerSur/Comercial/Publico/z_escrit_Daniel/server_mercados/desarrollo_BD_peru/simple_peru_dev/Data/'
 
-ruta2='load/'
+ruta2='maintenance/'
 
 ruta=ruta1+ruta2
 
-ruta='./'
+#ruta='./'
 
-archivo='Historical_Inflows_DJ.csv'
+archivo='maintenance_hydro.csv'
 
 ruta_final=ruta+archivo
 
@@ -119,3 +119,4 @@ plt.show()
 #print(periods_to_hours)
 
 '''
+

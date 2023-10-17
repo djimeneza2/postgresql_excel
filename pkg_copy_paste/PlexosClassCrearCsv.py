@@ -1,8 +1,11 @@
+
+'''
 import pandas as pd
 import numpy as np
 import datetime
 import ast
-
+'''
+import pkg_copy_paste
 
 class ArrayMonthDaysPeriods():
 
@@ -12,11 +15,11 @@ class ArrayMonthDaysPeriods():
         self.periodsperdays=periodsperdays
 
     def funcNumberOfDaysInMonth(self):
-        if self.month in np.array([1,3,5,7,8,10,12]):
+        if self.month in pkg_copy_paste.np.array([1,3,5,7,8,10,12]):
             self.number_days_in_month=31
-        elif self.month in np.array([4,6,9,11]):
+        elif self.month in pkg_copy_paste.np.array([4,6,9,11]):
             self.number_days_in_month=30
-        elif self.month in np.array([2]):
+        elif self.month in pkg_copy_paste.np.array([2]):
             if self.year%4==0 and (self.year%100 !=0 or self.year%400==0):
                 self.number_days_in_month=29
             else:
@@ -24,30 +27,30 @@ class ArrayMonthDaysPeriods():
         return self.number_days_in_month
 
     def funcArrayOfPeriodsInDay(self):
-        self.array_of_periods_in_day=np.arange(1,self.periodsperdays+1,dtype=int)
+        self.array_of_periods_in_day=pkg_copy_paste.np.arange(1,self.periodsperdays+1,dtype=int)
         return self.array_of_periods_in_day
     
     def funcArrayOfPeriodsInMonth(self):
-        self.array_of_periods_in_month=np.tile(self.funcArrayOfPeriodsInDay(),self.funcNumberOfDaysInMonth()).astype(int)
+        self.array_of_periods_in_month=pkg_copy_paste.np.tile(self.funcArrayOfPeriodsInDay(),self.funcNumberOfDaysInMonth()).astype(int)
         return self.array_of_periods_in_month
     
     def funArrayOfDaysInMonth(self):
-        self.array_of_days_in_month=np.array([])
-        for i in np.arange(1,self.funcNumberOfDaysInMonth()+1):
-            array=np.tile(np.array([i]),np.shape(self.funcArrayOfPeriodsInDay())[0])
-            self.array_of_days_in_month=np.append(self.array_of_days_in_month,array).astype(int)
+        self.array_of_days_in_month=pkg_copy_paste.np.array([])
+        for i in pkg_copy_paste.np.arange(1,self.funcNumberOfDaysInMonth()+1):
+            array=pkg_copy_paste.np.tile(pkg_copy_paste.np.array([i]),pkg_copy_paste.np.shape(self.funcArrayOfPeriodsInDay())[0])
+            self.array_of_days_in_month=pkg_copy_paste.np.append(self.array_of_days_in_month,array).astype(int)
         return self.array_of_days_in_month
 
     def funcArraysOfMonthInMonth(self):
-        self.array_of_month_in_month=self.month*np.ones_like(self.funArrayOfDaysInMonth())
+        self.array_of_month_in_month=self.month*pkg_copy_paste.np.ones_like(self.funArrayOfDaysInMonth())
         return self.array_of_month_in_month
     
     def funcArrayYearsInMonth(self):
-        self.array_of_year_in_month=self.year*np.ones_like(self.funArrayOfDaysInMonth()).astype(int)
+        self.array_of_year_in_month=self.year*pkg_copy_paste.np.ones_like(self.funArrayOfDaysInMonth()).astype(int)
         return self.array_of_year_in_month
     
     def funcArrayMonthDaysPeriods(self):
-        self.array_month_day_periods=np.stack((self.funcArrayYearsInMonth(),
+        self.array_month_day_periods=pkg_copy_paste.np.stack((self.funcArrayYearsInMonth(),
                                                 self.funcArraysOfMonthInMonth(),
                                                 self.funArrayOfDaysInMonth(),
                                                 self.funcArrayOfPeriodsInMonth()),axis=1).astype(int)
@@ -69,9 +72,9 @@ class CreateDataframeOfMonth(ArrayMonthDaysPeriods):
 
     def funcDfOfIndexes(self):
 
-        df_indexes=pd.DataFrame(self.funcArrayMonthDaysPeriods(),columns=['YEAR','MONTH','DAY','PERIOD'])
-        data_DF=self.data_complete_blanks*np.ones((np.shape(self.funcArrayMonthDaysPeriods())[0],np.shape(self.array_columns)[0]))      
-        df_data=pd.DataFrame(data_DF,columns=self.array_columns)
+        df_indexes=pkg_copy_paste.pd.DataFrame(self.funcArrayMonthDaysPeriods(),columns=['YEAR','MONTH','DAY','PERIOD'])
+        data_DF=self.data_complete_blanks*pkg_copy_paste.np.ones((pkg_copy_paste.np.shape(self.funcArrayMonthDaysPeriods())[0],pkg_copy_paste.np.shape(self.array_columns)[0]))      
+        df_data=pkg_copy_paste.pd.DataFrame(data_DF,columns=self.array_columns)
         self.DF_final=df_indexes.join(df_data)
         return self.DF_final
     
@@ -93,9 +96,9 @@ class CreateDataframeOfMultiMonths(CreateDataframeOfMonth):
     def funcmultimonth(self):
 
         self.DF_final_multimonth=CreateDataframeOfMonth(self.year,self.month_init,self.periodsperdays,self.array_columns,self.data_complete_blanks).funcDfOfIndexes()
-        for month_loop in np.arange(self.month_init+1,self.month_end+1):
+        for month_loop in pkg_copy_paste.np.arange(self.month_init+1,self.month_end+1):
             prueba=CreateDataframeOfMonth(self.year,month_loop,self.periodsperdays,self.array_columns,self.data_complete_blanks).funcDfOfIndexes()
-            self.DF_final_multimonth=pd.concat([self.DF_final_multimonth,prueba])
+            self.DF_final_multimonth=pkg_copy_paste.pd.concat([self.DF_final_multimonth,prueba])
         return self.DF_final_multimonth
     
 class CreateDataframeOfMultiYears(CreateDataframeOfMultiMonths):
@@ -120,11 +123,11 @@ class CreateDataframeOfMultiYears(CreateDataframeOfMultiMonths):
     def funcmultiyear(self):
 
         self.DF_final_multiyear=CreateDataframeOfMultiMonths(self.year_init,1,12,self.periodsperdays,self.array_columns,self.data_complete_blanks).funcmultimonth()
-        for year_loop in np.arange(self.year_init+1,self.year_end+1):
+        for year_loop in pkg_copy_paste.np.arange(self.year_init+1,self.year_end+1):
             prueba=CreateDataframeOfMultiMonths(year_loop,1,12,self.periodsperdays,self.array_columns,self.data_complete_blanks).funcmultimonth()
-            self.DF_final_multiyear=pd.concat([self.DF_final_multiyear,prueba])
+            self.DF_final_multiyear=pkg_copy_paste.pd.concat([self.DF_final_multiyear,prueba])
         
-        indices=pd.Series(np.arange(0,np.shape(self.DF_final_multiyear)[0]))
+        indices=pkg_copy_paste.pd.Series(pkg_copy_paste.np.arange(0,pkg_copy_paste.np.shape(self.DF_final_multiyear)[0]))
         self.DF_final_multiyear=self.DF_final_multiyear.set_index(indices)
 
         return self.DF_final_multiyear
@@ -149,7 +152,7 @@ class ModifyDataFrameMultiYears(CreateDataframeOfMultiYears):
 
     def parse_tuple(self,string):
             try:
-                s = ast.literal_eval(str(string))
+                s = pkg_copy_paste.ast.literal_eval(str(string))
                 if type(s) == tuple:
                     return s
                 return
@@ -158,28 +161,28 @@ class ModifyDataFrameMultiYears(CreateDataframeOfMultiYears):
             
     def funCalcDifDates(self):
 
-        iterate=np.shape(self.dataframe_modif)[0]
-        range_iterate=np.arange(0,iterate)
-        data_diff_dates=np.array([])
-        data_periods_init=np.array([])
-        data_periods_end=np.array([])
+        iterate=pkg_copy_paste.np.shape(self.dataframe_modif)[0]
+        range_iterate=pkg_copy_paste.np.arange(0,iterate)
+        data_diff_dates=pkg_copy_paste.np.array([])
+        data_periods_init=pkg_copy_paste.np.array([])
+        data_periods_end=pkg_copy_paste.np.array([])
 
         for i in range_iterate:
             date_from=self.parse_tuple(self.dataframe_modif['date_init'].loc[i])
             date_to=self.parse_tuple(self.dataframe_modif['date_end'].loc[i])
-            date_from_i=datetime.datetime(date_from[0],date_from[1],date_from[2],date_from[3],date_from[4])
-            date_to_i=datetime.datetime(date_to[0],date_to[1],date_to[2],date_to[3],date_to[4])
+            date_from_i=pkg_copy_paste.datetime.datetime(date_from[0],date_from[1],date_from[2],date_from[3],date_from[4])
+            date_to_i=pkg_copy_paste.datetime.datetime(date_to[0],date_to[1],date_to[2],date_to[3],date_to[4])
             diff_date_to_from=date_to_i-date_from_i
             periods_changed=divmod(diff_date_to_from.days*24*60*60+diff_date_to_from.seconds,3600/(self.periodsperdays/24)) 
-            data_diff_dates=np.append(data_diff_dates,int(periods_changed[0]))
+            data_diff_dates=pkg_copy_paste.np.append(data_diff_dates,int(periods_changed[0]))
             
             period_from_p=date_from[3]*self.periodsperdays/24+date_from[4]/(60/(self.periodsperdays/24))+1
             tuple_string_from= "("+str(date_from[0])+","+str(date_from[1])+","+str(date_from[2])+","+str(int(period_from_p))+")"
-            data_periods_init=np.append(data_periods_init,tuple_string_from)
+            data_periods_init=pkg_copy_paste.np.append(data_periods_init,tuple_string_from)
            
             period_to_p=date_to[3]*self.periodsperdays/24+date_to[4]/(60/(self.periodsperdays/24))+1
             tuple_string_to= "("+str(date_to[0])+","+str(date_to[1])+","+str(date_to[2])+","+str(int(period_to_p))+")"
-            data_periods_end=np.append(data_periods_end,tuple_string_to)
+            data_periods_end=pkg_copy_paste.np.append(data_periods_end,tuple_string_to)
 
         self.dataframe_modif['periods_change']=data_diff_dates
         self.dataframe_modif['date_init_p']=data_periods_init
@@ -189,8 +192,8 @@ class ModifyDataFrameMultiYears(CreateDataframeOfMultiYears):
     
     def funChangeDataInDataframeColumn(self):
 
-        iterate=np.shape(self.funCalcDifDates())[0] #2850
-        range_iterate=np.arange(0,iterate) #0-2849
+        iterate=pkg_copy_paste.np.shape(self.funCalcDifDates())[0] #2850
+        range_iterate=pkg_copy_paste.np.arange(0,iterate) #0-2849
 
         dataframe_fin=CreateDataframeOfMultiYears(self.year_init,
                                                     self.year_end,

@@ -82,6 +82,7 @@ for k in df_scenarios['SCENARIO']:#[df_scenarios['SCENARIO']<=28]
                                         day=int(df_inflow_montecarlo['DAY'][indice_last_j]),
                                         hour=int(np.array(periods_to_hours['HOUR'][periods_to_hours['PERIOD']==df_inflow_montecarlo.loc[indice_last_j,'PERIOD']])[0]),
                                         minute=int(np.array(periods_to_hours['MINUTE'][periods_to_hours['PERIOD']==df_inflow_montecarlo.loc[indice_last_j,'PERIOD']])[0]))
+
     
     while date_inflows_last<=datetime.datetime(first_year,12,31,23,30):
 
@@ -100,6 +101,3 @@ for k in df_scenarios['SCENARIO']:#[df_scenarios['SCENARIO']<=28]
     #print(df_inflow_montecarlo[(df_inflow_montecarlo['YEAR']<=2023) & (df_inflow_montecarlo[k]>0)])
 
 df_inflow_montecarlo.to_csv(f'{ruta}data_inflow_{column_test[0]}.csv',index=False) #data_inflows_es_02007_el_frayle
-
-#for year in np.arange(first_year+1,last_year+1):
-
