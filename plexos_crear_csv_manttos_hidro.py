@@ -1,15 +1,23 @@
-import pkg
+import pkg.pkg_plexos.PlexosClassCrearCsv as pkg
 import pandas as pd
 import numpy as np
 import datetime
 import ast
+import time
 
-inicio = pkg.time.time()
+inicio = time.time()
+#data_columnas=['unit1','unit2','unit3']
 
-#data a copiar
 
+#read_data_columnas=pd.read_excel('./manttos_final.xlsx',sheet_name='bd_hidros')
 
-data_columnas1= ['00057_ch_01018_pariac'
+#read_data_columnas=read_data_columnas.drop_duplicates(subset=['central_plexos'],keep='last')
+
+#read_data_columnas=read_data_columnas.dropna(subset=['central_plexos'])
+
+#data_columnas=np.array(read_data_columnas['central_plexos'].to_list())
+
+data_columnas= ['00057_ch_01018_pariac'
 ,'00260_ch_00055_cahua'
 ,'00261_ch_00018_callahuanca'
 ,'00264_ch_00061_carhuaquero'
@@ -60,10 +68,16 @@ data_columnas1= ['00057_ch_01018_pariac'
 ,'18949_ch_18952_angel_1'
 ,'18950_ch_18955_angel_2'
 ,'18951_ch_18956_angel_3'
+,'0002x_ch_00000_san_gaban_3'
+,'14448_ch_00001_quitaracsa'
+
 ]
 
 
-data_columnas2= ['00258_ct_00209_aguaytia_tg1'
+'''
+
+
+data_columnas= ['00258_ct_00209_aguaytia_tg1'
 ,'00258_ct_00210_aguaytia_tg2'
 ,'00275_ct_00271_malacas2_tg4'
 ,'00289_ct_00221_santarosa1_uti5d'
@@ -131,7 +145,7 @@ data_columnas2= ['00258_ct_00209_aguaytia_tg1'
 ,'13601_ct_00554_fenix_td11'
 ,'13601_ct_00555_fenix_td12tv'
 ,'13601_ct_00556_fenix_td12'
-,'13601_ct_00605_fenix_td11td12tv'
+,'13601_ct_00605_fenix_tg11tg12tv'
 ,'13656_ct_00318_olleros_tg1tv'
 ,'13656_ct_00343_olleros_tg1'
 ,'14908_ct_00338_rf_talara_td5'
@@ -156,20 +170,40 @@ data_columnas2= ['00258_ct_00209_aguaytia_tg1'
 ,'20510_ct_00575_canha_brava_tv1tv2'
 ]
 
+'''
 
-data_columnas=np.concatenate((data_columnas1,data_columnas2))
+#print(data_columnas)
 
-obj_data_rpf=pkg.plexos_crear_csv.CreateDataframeOfMultiYears(2023,2030,48,data_columnas,1.019)
+dataframe_manttos=pd.read_csv('./data_excel_csv/manto_hidros-mod.csv') 
 
-data_rp=obj_data_rpf.funcmultiyear()
+prueba4=pkg.ModifyDataFrameMultiYears(2023,2024,48,data_columnas,0,dataframe_manttos)
 
-for col in data_columnas:
-    data_rp.loc[data_rp['MONTH']==6,col]=1.023
-    data_rp.loc[data_rp['MONTH']==7,col]=1.023
-    data_rp.loc[data_rp['MONTH']==8,col]=1.023
-    data_rp.loc[data_rp['MONTH']==9,col]=1.023
-    data_rp.loc[data_rp['MONTH']==10,col]=1.023
-    data_rp.loc[data_rp['MONTH']==11,col]=1.023
+#dataframe_final=prueba4.funcmultiyear()
 
-data_rp.to_csv('./data_plantilla_rpf.csv',index=False)
+#dataframe_final.to_csv('./plantilla-data-final.csv')
 
+#df_calcdifdates=prueba4.funCalcDifDates()
+
+#df_calcdifdates.to_csv('./plantilla-calcdifdate-final.csv')
+
+
+
+
+
+
+#dataframe_fin_mod=prueba4.funChangeDataInDataframeColumn()
+
+#dataframe_fin_mod.to_csv('./data_excel_csv/plexos_mantto_thermal.csv')
+
+
+
+
+archivoamodificar='./data_excel_csv/maintenance_hydro_plexos.csv'
+
+dataframe_fin_mod=prueba4.funChangeDataInDataframeColumn_modificar_archivo(archivoamodificar)
+
+dataframe_fin_mod.to_csv('./data_excel_csv/plexos_mantto_hydro_mod.csv',index=False)
+
+final=time.time()
+   
+print(f'ejecucion finalizada de copy and paste en {final-inicio} segundos')

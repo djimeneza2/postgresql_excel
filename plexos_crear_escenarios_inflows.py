@@ -1,29 +1,32 @@
-import pkg_copy_paste
+import pkg.pkg_plexos.PlexosClassCrearCsv as pkg
 import pandas as pd
 import numpy as np
 import datetime
+import time
 import ast
 
-inicio = pkg_copy_paste.time.time()
+inicio = time.time()
 
 ruta='P:/EnerSur/Comercial/Publico/z_escrit_Daniel/server_mercados/desarrollo_BD_peru/simple_peru_test/Data/natural_inflows_montecarlo/'
 
 archivo_historical='data_historical_inflows.csv'
-df_historical=pkg_copy_paste.pd.read_csv(ruta+archivo_historical)
+df_historical=pkg.pd.read_csv(ruta+archivo_historical)
 
 archivo_scenarios='scenario_list.csv'
-df_scenarios=pkg_copy_paste.pd.read_csv(ruta+archivo_scenarios)
+df_scenarios=pkg.pd.read_csv(ruta+archivo_scenarios)
 
 archivo_periods='transform_periods_hour.csv'
-periods_to_hours=pkg_copy_paste.pd.read_csv(ruta+archivo_periods)
+periods_to_hours=pkg.pd.read_csv(ruta+archivo_periods)
 
 first_year=2023
 last_year=2030
-inflow_montecarlo=pkg_copy_paste.plexos_crear_csv.CreateDataframeOfMultiYears(first_year,last_year,48,np.array(df_scenarios['SCENARIO']),0)
+inflow_montecarlo=pkg.CreateDataframeOfMultiYears(first_year,last_year,48,np.array(df_scenarios['SCENARIO']),0)
 df_inflow_montecarlo=inflow_montecarlo.funcmultiyear()
 #df_inflow_montecarlo=df_inflow_montecarlo_total[df_inflow_montecarlo_total['YEAR']<=first_year]
 
-column_test=['er_00801_lago_junin']
+column_test=['er_00404_shapiringo']
+#er_00000_san_gaban_3	er_00404_shapiringo	eh_00000_san_gaban_3	eh_00000_quitaracsa
+
 
 #asignar escenario en los afluentes historicos
 df_historical['scen']=0
@@ -35,13 +38,13 @@ for i in np.arange(np.shape(df_historical)[0]):
 
 df_historical=df_historical[df_historical['scen']>0]
 
-df_historical=pkg_copy_paste.pd.DataFrame(np.array(df_historical),columns=df_historical.columns)
+df_historical=pd.DataFrame(np.array(df_historical),columns=df_historical.columns)
 
 
 for k in df_scenarios['SCENARIO']:#[df_scenarios['SCENARIO']<=28]
 
     df_historical_scen=df_historical[df_historical['scen']==k]
-    df_historical_scen=pkg_copy_paste.pd.DataFrame(np.array(df_historical_scen),columns=df_historical_scen.columns)
+    df_historical_scen=pkg.pd.DataFrame(np.array(df_historical_scen),columns=df_historical_scen.columns)
 
     indice_j=0
 

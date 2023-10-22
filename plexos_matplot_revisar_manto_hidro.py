@@ -7,7 +7,7 @@ import ast
 import matplotlib.pyplot as plt
 import math
 from matplotlib.gridspec import GridSpec
-''''''
+
 
 import pkg.pkg_plexos.PlexosClassCrearFirst as pkg_p
 
@@ -16,13 +16,16 @@ import pkg.pkg_plexos.PlexosClassCrearFirst as pkg_p
 
 ruta1='P:/EnerSur/Comercial/Publico/z_escrit_Daniel/server_mercados/desarrollo_BD_peru/simple_peru_test/Data/'
 
-ruta2='constraints/irrigations/'
+ruta2='maintenance/'
 
 ruta=ruta1+ruta2
 
-archivo='data_constraint_irrigations.csv'
+archivo='maintenance_hydro.csv'
 
 ruta_final=ruta+archivo
+
+
+
 
 
 dataframe_frame_2=pd.read_csv(ruta_final) 
@@ -62,17 +65,20 @@ for column in dataframe_frame_2.columns:
         ax.set_title(column)
         
         plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
 '''
-
-
-
-
-
-
-
-
-
-first_year=2023
+first_year=2024
 last_year=2030
 
 #for column in df_historical.columns:

@@ -1,10 +1,11 @@
-import pkg_copy_paste
+import pkg.pkg_plexos.PlexosClassCrearCsv as pkg
 import pandas as pd
 import numpy as np
 import datetime
 import ast
+import time
 
-inicio = pkg_copy_paste.time.time()
+inicio = time.time()
 #data_columnas=['unit1','unit2','unit3']
 
 
@@ -168,9 +169,9 @@ data_columnas= ['00258_ct_00209_aguaytia_tg1'
 
 #print(data_columnas)
 
-dataframe_manttos=pd.read_csv('./manto_thermal.csv') 
+dataframe_manttos=pd.read_csv('./data_excel_csv/manto_thermal-mod.csv') 
 
-prueba4=pkg_copy_paste.ModifyDataFrameMultiYears(2023,2024,48,data_columnas,0,dataframe_manttos)
+prueba4=pkg.ModifyDataFrameMultiYears(2023,2024,48,data_columnas,0,dataframe_manttos)
 
 #dataframe_final=prueba4.funcmultiyear()
 
@@ -180,10 +181,24 @@ prueba4=pkg_copy_paste.ModifyDataFrameMultiYears(2023,2024,48,data_columnas,0,da
 
 #df_calcdifdates.to_csv('./plantilla-calcdifdate-final.csv')
 
-dataframe_fin_mod=prueba4.funChangeDataInDataframeColumn()
 
-dataframe_fin_mod.to_csv('./plexos_mantto_hidros.csv')
 
-final=pkg_copy_paste.time.time()
+
+
+
+#dataframe_fin_mod=prueba4.funChangeDataInDataframeColumn()
+
+#dataframe_fin_mod.to_csv('./data_excel_csv/plexos_mantto_thermal.csv')
+
+
+
+
+archivoamodificar='./data_excel_csv/maintenance_thermal_plexos.csv'
+
+dataframe_fin_mod=prueba4.funChangeDataInDataframeColumn_modificar_archivo(archivoamodificar)
+
+dataframe_fin_mod.to_csv('./data_excel_csv/plexos_mantto_thermal_mod.csv',index=False)
+
+final=time.time()
    
 print(f'ejecucion finalizada de copy and paste en {final-inicio} segundos')

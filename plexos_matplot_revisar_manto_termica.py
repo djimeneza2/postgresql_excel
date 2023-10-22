@@ -7,7 +7,7 @@ import ast
 import matplotlib.pyplot as plt
 import math
 from matplotlib.gridspec import GridSpec
-''''''
+
 
 import pkg.pkg_plexos.PlexosClassCrearFirst as pkg_p
 
@@ -16,11 +16,11 @@ import pkg.pkg_plexos.PlexosClassCrearFirst as pkg_p
 
 ruta1='P:/EnerSur/Comercial/Publico/z_escrit_Daniel/server_mercados/desarrollo_BD_peru/simple_peru_test/Data/'
 
-ruta2='constraints/irrigations/'
+ruta2='maintenance/'
 
 ruta=ruta1+ruta2
 
-archivo='data_constraint_irrigations.csv'
+archivo='maintenance_thermal.csv'
 
 ruta_final=ruta+archivo
 
@@ -72,7 +72,7 @@ for column in dataframe_frame_2.columns:
 
 
 
-first_year=2023
+first_year=2024
 last_year=2030
 
 #for column in df_historical.columns:
@@ -84,5 +84,4 @@ object_fin=pkg_p.copyfirstyear(first_year,last_year,ruta,csv_df_full)
 csv_df_full_modificado=object_fin.copy_first_in_other_years_improve()
 
 csv_df_full_modificado.to_csv(ruta_final,index=False)
-
 '''

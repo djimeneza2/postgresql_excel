@@ -1,21 +1,21 @@
-import pkg_copy_paste
+import pkg
 import pandas as pd
 import numpy as np
 import datetime
 import ast
 
-inicio = pkg_copy_paste.time.time()
+inicio = pkg.time.time()
 
 ruta='P:/EnerSur/Comercial/Publico/z_escrit_Daniel/server_mercados/desarrollo_BD_peru/simple_peru_test/Data/natural_inflows_montecarlo/'
 
 archivo_historical='data_historical_inflows.csv'
-df_historical=pkg_copy_paste.pd.read_csv(ruta+archivo_historical)
+df_historical=pkg.pd.read_csv(ruta+archivo_historical)
 
 archivo_scenarios='scenario_list.csv'
-df_scenarios=pkg_copy_paste.pd.read_csv(ruta+archivo_scenarios)
+df_scenarios=pkg.pd.read_csv(ruta+archivo_scenarios)
 
 archivo_periods='transform_periods_hour.csv'
-periods_to_hours=pkg_copy_paste.pd.read_csv(ruta+archivo_periods)
+periods_to_hours=pkg.pd.read_csv(ruta+archivo_periods)
 
 first_year=2023
 other_year=first_year+1
@@ -28,7 +28,7 @@ df_inflow_montecarlo=inflow_montecarlo.funcmultiyear()
 
 column_test=['er_00801_lago_junin']
 
-df_inflow_montecarlo=pkg_copy_paste.pd.read_csv(f'{ruta}data_inflow_{column_test[0]}.csv')
+df_inflow_montecarlo=pkg.pd.read_csv(f'{ruta}data_inflow_{column_test[0]}.csv')
 
 def identificar_bisiesto(year):
     if year%4==0 and (year%100 !=0 or year%400==0):

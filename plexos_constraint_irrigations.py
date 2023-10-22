@@ -1,10 +1,10 @@
-import pkg_copy_paste
+import pkg
 import pandas as pd
 import numpy as np
 import datetime
 import ast
 
-inicio = pkg_copy_paste.time.time()
+inicio = pkg.time.time()
 
 data_files=['Irrigation_Aricota rieg'
 ,'Irrigation_Chili riego'
@@ -17,25 +17,25 @@ for archivo in data_files:
 
     embalse_prueba=archivo
 
-    df_data_constraints=pkg_copy_paste.pd.read_csv('./Irrigation_Constraints.csv')
+    df_data_constraints=pkg.pd.read_csv('./Irrigation_Constraints.csv')
 
     df_data_constraints=df_data_constraints.loc[df_data_constraints['NAME']==embalse_prueba]
 
     #data_historical=df_data_constraints.reindex(np.arange(np.shape(df_data_constraints)[0]))
 
-    data_historical=pkg_copy_paste.pd.DataFrame(df_data_constraints.to_numpy(),index=np.arange(np.shape(df_data_constraints)[0]),columns=df_data_constraints.columns.to_numpy())
+    data_historical=pkg.pd.DataFrame(df_data_constraints.to_numpy(),index=np.arange(np.shape(df_data_constraints)[0]),columns=df_data_constraints.columns.to_numpy())
 
     #data a pegar
 
     data_columnas=[embalse_prueba]
 
-    data_embalses_days=pkg_copy_paste.plexos_crear_csv.CreateDataframeOfMultiYears(2023,2030,48,data_columnas,0)
+    data_embalses_days=pkg.plexos_crear_csv.CreateDataframeOfMultiYears(2023,2030,48,data_columnas,0)
 
     plantilla_embalses=data_embalses_days.funcmultiyear()
 
     #transformar periodos a horas
 
-    periods_to_hours=pkg_copy_paste.pd.read_csv('./transform_periods_hour.csv')
+    periods_to_hours=pkg.pd.read_csv('./transform_periods_hour.csv')
 
     #copiar pegar por fecha
 

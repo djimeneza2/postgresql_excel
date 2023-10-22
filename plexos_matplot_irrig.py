@@ -1,4 +1,4 @@
-import pkg_copy_paste
+import pkg
 import pandas as pd
 import numpy as np
 import datetime
@@ -10,7 +10,7 @@ from matplotlib.gridspec import GridSpec
 
 #ruta='P:/EnerSur/Comercial/Publico/z_escrit_Daniel/server_mercados/desarrollo_BD_peru/simple_peru_dev/Data/constraints/irrigations/'
 
-ruta1='P:/EnerSur/Comercial/Publico/z_escrit_Daniel/server_mercados/desarrollo_BD_peru/simple_peru_dev/Data/'
+ruta1='P:/EnerSur/Comercial/Publico/z_escrit_Daniel/server_mercados/desarrollo_BD_peru/simple_peru_test/Data/'
 
 ruta2='maintenance/'
 
@@ -18,19 +18,19 @@ ruta=ruta1+ruta2
 
 #ruta='./'
 
-archivo='maintenance_hydro.csv'
+archivo='maintenance_thermal.csv'
 
 ruta_final=ruta+archivo
 
-dataframe_frame_2=pkg_copy_paste.pd.read_csv(ruta_final) 
+dataframe_frame_2=pd.read_csv(ruta_final) 
 
-ruta_periods='./'
+ruta_periods='./data_excel_csv/'
 
 archivo_periods='transform_periods_hour.csv'
 
 ruta_final_periods=ruta_periods+archivo_periods
 
-periods_to_hours=pkg_copy_paste.pd.read_csv(ruta_final_periods)
+periods_to_hours=pd.read_csv(ruta_final_periods)
 
 #calculando fechas
 

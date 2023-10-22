@@ -1,20 +1,21 @@
-import pkg_copy_paste
+
 import pandas as pd
 import numpy as np
 import datetime
 import ast
+import pkg.pkg_plexos.PlexosClassCrearCsv as pkg_1
 
-inicio = pkg_copy_paste.time.time()
+#inicio = time.time()
 
-df_embalses=pkg_copy_paste.pd.read_csv('./data_embalses.csv')
+df_embalses=pd.read_csv('./data_embalses.csv')
 
 data_columnas=np.array(df_embalses['embalses'].to_list())
 
-data_embalses_days=pkg_copy_paste.plexos_crear_csv.CreateDataframeOfMultiYears(1965,2022,1,data_columnas,0)
+data_embalses_days=pkg_1.CreateDataframeOfMultiYears(1965,2022,1,data_columnas,0)
 
 plantilla_embalses=data_embalses_days.funcmultiyear()
 
-data_historical=pkg_copy_paste.pd.read_csv('./data_historical_inflows.csv')
+data_historical=pd.read_csv('./data_historical_inflows.csv')
 
 indice_j=0
 

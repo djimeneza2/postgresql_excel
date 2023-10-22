@@ -16,11 +16,11 @@ import pkg.pkg_plexos.PlexosClassCrearFirst as pkg_p
 
 ruta1='P:/EnerSur/Comercial/Publico/z_escrit_Daniel/server_mercados/desarrollo_BD_peru/simple_peru_test/Data/'
 
-ruta2='constraints/irrigations/'
+ruta2='natural_inflows_montecarlo/'
 
 ruta=ruta1+ruta2
 
-archivo='data_constraint_irrigations.csv'
+archivo='data_inflow_er_00404_shapiringo.csv'
 
 ruta_final=ruta+archivo
 
@@ -62,7 +62,7 @@ for column in dataframe_frame_2.columns:
         ax.set_title(column)
         
         plt.show()
-'''
+
 
 
 
@@ -84,5 +84,3 @@ object_fin=pkg_p.copyfirstyear(first_year,last_year,ruta,csv_df_full)
 csv_df_full_modificado=object_fin.copy_first_in_other_years_improve()
 
 csv_df_full_modificado.to_csv(ruta_final,index=False)
-
-'''
